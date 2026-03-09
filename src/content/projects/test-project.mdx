@@ -1,0 +1,43 @@
+---
+title: "Rediseño de plataforma interna"
+slug: "test-project"
+summary: "Migración y rediseño de una plataforma legacy hacia una arquitectura moderna con Next.js y TypeScript."
+role: "frontend"
+stack:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - PostgreSQL
+  - Vercel
+featured: true
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Reducción del 40% en tiempos de carga"
+  - "Migración sin downtime de 3 módulos críticos"
+  - "Implementación de design system desde cero"
+---
+
+## Problema
+
+La plataforma interna de gestión llevaba más de 5 años sin actualizaciones significativas. El stack original (jQuery + PHP monolítico) generaba fricción constante en el equipo de desarrollo y limitaba la capacidad de iterar sobre nuevas funcionalidades.
+
+Los tiempos de carga superaban los 8 segundos en vistas clave, y el mantenimiento de estilos era caótico por la ausencia de un sistema de diseño coherente.
+
+## Solución
+
+Se planificó una migración incremental hacia Next.js App Router con TypeScript. En lugar de un rewrite completo, se priorizaron los módulos con mayor impacto en el negocio y se migraron de forma progresiva.
+
+Se implementó un design system basado en Tailwind CSS con componentes reutilizables, y se adoptó PostgreSQL como base de datos principal con queries optimizadas.
+
+## Decisiones técnicas
+
+- **App Router sobre Pages Router**: se eligió App Router para aprovechar React Server Components y reducir el JS enviado al cliente.
+- **Tailwind CSS**: permitió iterar rápido sobre el diseño sin necesidad de escribir CSS custom.
+- **Migración incremental**: se usó un proxy reverso para servir las rutas nuevas desde Next.js mientras las viejas seguían en el monolito.
+
+## Resultados
+
+- Tiempos de carga reducidos de ~8s a ~3s en las vistas principales.
+- El equipo de desarrollo pasó de ciclos de deploy semanales a deploy continuo.
+- La adopción del design system redujo en un 60% los bugs visuales reportados.
