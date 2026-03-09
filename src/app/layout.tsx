@@ -15,8 +15,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Portfolio",
-	description: "Personal portfolio built with Next.js",
+	title: {
+		default: "Your Name — Fullstack Developer",
+		template: "%s | Your Name",
+	},
+	description:
+		"Fullstack developer specializing in Next.js, TypeScript, and Node. Building performant, maintainable web products.",
+	metadataBase: new URL("https://example.com"),
+	openGraph: {
+		title: "Your Name — Fullstack Developer",
+		description:
+			"Fullstack developer specializing in Next.js, TypeScript, and Node.",
+		url: "https://example.com",
+		siteName: "Your Name — Portfolio",
+		images: [
+			{
+				url: "/og.png",
+				width: 1200,
+				height: 630,
+				alt: "Your Name — Fullstack Developer",
+			},
+		],
+		locale: "en_US",
+		type: "website",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Your Name — Fullstack Developer",
+		description:
+			"Fullstack developer specializing in Next.js, TypeScript, and Node.",
+		images: ["/og.png"],
+	},
 };
 
 export default function RootLayout({

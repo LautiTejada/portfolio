@@ -1,10 +1,12 @@
+import type { Metadata } from "next";
 import { getAllProjects } from "@/lib/content/projects";
 import Container from "@/components/layout/Container";
 import ProjectFilters from "@/components/projects/ProjectFilters";
 
-export const metadata = {
-	title: "Projects — Portfolio",
-	description: "A selection of projects I've worked on.",
+export const metadata: Metadata = {
+	title: "Projects",
+	description:
+		"A curated selection of projects I've worked on — filtered by role and tech stack.",
 };
 
 export default async function ProjectsPage() {
