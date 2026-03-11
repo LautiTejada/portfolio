@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import type { ProjectFrontmatter } from "@/lib/types/project";
 import type { HiringMode } from "@/components/hiring/HiringModeToggle";
 import HiringModeToggle from "@/components/hiring/HiringModeToggle";
+import type { Dictionary } from "@/i18n/getDictionary";
 
 interface ProjectDetailProps {
 	frontmatter: ProjectFrontmatter;
 	mdxContent: React.ReactNode;
 	retroContent?: string;
+	dict: Dictionary;
 }
 
 const STORAGE_KEY = "hiringMode";
@@ -17,6 +19,7 @@ export default function ProjectDetail({
 	frontmatter,
 	mdxContent,
 	retroContent,
+	dict,
 }: ProjectDetailProps) {
 	const [mode, setMode] = useState<HiringMode>("recruiter");
 
@@ -31,17 +34,19 @@ export default function ProjectDetail({
 
 	return (
 		<div className="mt-8">
-			<HiringModeToggle onChange={setMode} />
+			<HiringModeToggle onChange={setMode} dict={dict} />
 
 			{mode === "recruiter" ? (
 				<section className="mt-8">
-					<h2 className="text-xl font-semibold tracking-tight">Summary</h2>
+					<h2 className="text-xl font-semibold tracking-tight">
+						{dict.projects.summary}
+					</h2>
 					<p className="mt-3 leading-relaxed text-foreground/70">{summary}</p>
 
 					{highlights.length > 0 && (
 						<div className="mt-6">
 							<h2 className="text-xl font-semibold tracking-tight">
-								Highlights
+								{dict.projects.highlights}
 							</h2>
 							<ul className="mt-3 space-y-2">
 								{highlights.map((item) => (
@@ -58,7 +63,9 @@ export default function ProjectDetail({
 
 					{(repoUrl || liveUrl) && (
 						<div className="mt-6">
-							<h2 className="text-xl font-semibold tracking-tight">Links</h2>
+							<h2 className="text-xl font-semibold tracking-tight">
+								{dict.projects.links}
+							</h2>
 							<div className="mt-3 flex gap-3">
 								{repoUrl && (
 									<a
@@ -66,7 +73,7 @@ export default function ProjectDetail({
 										target="_blank"
 										rel="noopener noreferrer"
 										className="rounded-md border border-foreground/10 px-3 py-1.5 text-sm font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-										Repository ↗
+										{dict.projects.repository} ↗
 									</a>
 								)}
 								{liveUrl && (
@@ -75,7 +82,7 @@ export default function ProjectDetail({
 										target="_blank"
 										rel="noopener noreferrer"
 										className="rounded-md border border-foreground/10 px-3 py-1.5 text-sm font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-										Live Demo ↗
+										{dict.projects.liveDemo} ↗
 									</a>
 								)}
 							</div>
@@ -89,7 +96,7 @@ export default function ProjectDetail({
 					{retroContent && (
 						<div className="mt-10 rounded-xl border border-foreground/10 p-6">
 							<h2 className="text-xl font-semibold tracking-tight">
-								Qué haría diferente
+								{dict.projects.retroTitle}
 							</h2>
 							<p className="mt-3 leading-relaxed text-foreground/70">
 								{retroContent}

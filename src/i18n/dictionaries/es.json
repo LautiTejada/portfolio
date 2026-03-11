@@ -1,0 +1,104 @@
+{
+	"nav": {
+		"home": "Inicio",
+		"projects": "Proyectos",
+		"contact": "Contacto"
+	},
+	"hero": {
+		"label": "Portfolio",
+		"title": "Fullstack Developer —",
+		"titleHighlight": "Next.js / TypeScript / Node",
+		"description": "Construyo productos web performantes y mantenibles, con foco en developer experience e impacto real.",
+		"viewProjects": "Ver Proyectos",
+		"contact": "Contacto"
+	},
+	"featuredProjects": {
+		"title": "Proyectos Destacados",
+		"viewAll": "Ver todos →"
+	},
+	"howIWork": {
+		"title": "Cómo Trabajo",
+		"steps": [
+			{
+				"number": "01",
+				"title": "Descubrir",
+				"description": "Entender el problema, los usuarios y las restricciones antes de escribir una sola línea de código."
+			},
+			{
+				"number": "02",
+				"title": "Construir",
+				"description": "Enviar incrementalmente con arquitectura limpia, type safety y foco en developer experience."
+			},
+			{
+				"number": "03",
+				"title": "Testear",
+				"description": "Validar con feedback real. Tests automatizados, auditorías de performance y cobertura de edge cases."
+			},
+			{
+				"number": "04",
+				"title": "Entregar",
+				"description": "Deploy con confianza. CI/CD, monitoreo y documentación desde el día uno."
+			}
+		]
+	},
+	"cta": {
+		"title": "Construyamos algo",
+		"description": "¿Tenés un proyecto en mente? Estoy abierto a nuevas oportunidades y colaboraciones.",
+		"button": "Contactame"
+	},
+	"projects": {
+		"title": "Proyectos",
+		"description": "Una selección de proyectos en los que trabajé — filtrados por rol y stack.",
+		"roleLabels": {
+			"frontend": "Frontend",
+			"backend": "Backend",
+			"fullstack": "Fullstack"
+		},
+		"confidentialityLabels": {
+			"public": "Público",
+			"internal": "Interno"
+		},
+		"repo": "Repo",
+		"live": "Live",
+		"allRoles": "Todos",
+		"allTags": "Todos",
+		"noResults": "No hay proyectos que coincidan con los filtros seleccionados.",
+		"summary": "Resumen",
+		"highlights": "Destacados",
+		"links": "Links",
+		"repository": "Repositorio",
+		"liveDemo": "Demo en vivo",
+		"retroTitle": "Qué haría diferente"
+	},
+	"hiring": {
+		"recruiter": "Recruiter",
+		"techLead": "Tech Lead",
+		"ariaLabel": "Vista según modo de contratación"
+	},
+	"contact": {
+		"title": "Contacto",
+		"description": "¿Tenés un proyecto en mente o simplemente querés saludar? Escribime.",
+		"emailLabel": "Email",
+		"linksLabel": "Links",
+		"copy": "Copiar",
+		"copied": "¡Copiado!",
+		"nameLabel": "Nombre",
+		"namePlaceholder": "Tu nombre",
+		"emailFieldLabel": "Email",
+		"emailPlaceholder": "tu@email.com",
+		"messageLabel": "Mensaje",
+		"messagePlaceholder": "¿Qué tenés en mente?",
+		"send": "Enviar Mensaje",
+		"sending": "Abriendo cliente de email…"
+	},
+	"notFound": {
+		"code": "404",
+		"title": "Página no encontrada",
+		"description": "La página que buscás no existe o fue movida.",
+		"goHome": "Ir al Inicio",
+		"viewProjects": "Ver Proyectos"
+	},
+	"footer": {
+		"rights": "Todos los derechos reservados."
+	}
+}

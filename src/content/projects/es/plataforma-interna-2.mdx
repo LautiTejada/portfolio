@@ -1,0 +1,71 @@
+---
+title: "Plataforma de gestión interna — Sistema de permisos"
+slug: "plataforma-interna-2"
+summary: "Diseño e implementación de un sistema de roles y permisos granular para una plataforma interna con múltiples áreas y niveles de acceso."
+role: "fullstack"
+stack:
+  - Node.js
+  - Express
+  - PostgreSQL
+  - React
+  - TypeScript
+featured: false
+year: 2024
+confidentiality: "internal"
+highlights:
+  - "Sistema RBAC con permisos granulares por recurso y acción"
+  - "Migración transparente de 200+ usuarios sin downtime"
+  - "Auditoría de accesos con logging estructurado"
+---
+
+> **Nota de confidencialidad**: este proyecto fue desarrollado bajo acuerdo de confidencialidad. Los nombres de la empresa, usuarios, y datos específicos han sido anonimizados. La descripción técnica es fiel al trabajo realizado.
+
+## Problema
+
+La plataforma interna manejaba permisos con un sistema binario: admin o usuario. Esto obligaba a dar acceso total a personas que solo necesitaban ver ciertos módulos, generando riesgos de seguridad y modificaciones accidentales de datos críticos.
+
+Había múltiples áreas (operaciones, finanzas, RRHH, comercial) compartiendo la misma plataforma, cada una con necesidades de acceso distintas. El equipo de IT recibía tickets constantes para "dar acceso a X persona a Y sección", que resolvían manualmente editando la base de datos.
+
+## Solución
+
+Se diseñó un sistema RBAC (Role-Based Access Control) con tres niveles:
+
+1. **Roles**: agrupaciones lógicas de permisos (ej: "Operaciones — Lectura", "Finanzas — Admin").
+2. **Permisos**: combinación de recurso + acción (ej: `reports:read`, `users:create`, `invoices:delete`).
+3. **Asignación**: cada usuario recibe uno o más roles. Los permisos se resuelven por unión.
+
+Se construyó un panel de administración donde el equipo de IT gestiona roles y asignaciones sin tocar la base de datos.
+
+## Decisiones técnicas
+
+- **RBAC sobre ABAC**: el modelo basado en roles es más simple de entender, mantener y auditar para el tamaño de la organización (~200 usuarios). ABAC agregaría complejidad innecesaria.
+- **Middleware de autorización en Express**: cada endpoint valida permisos a nivel de middleware, evitando que la lógica de negocio se contamine con checks de acceso.
+- **PostgreSQL con tablas de relación**: esquema normalizado con tablas `roles`, `permissions`, `role_permissions`, `user_roles`. Las queries de resolución de permisos usan JOINs optimizados con índices.
+- **Cache de permisos en memoria**: los permisos del usuario se resuelven al login y se cachean en el token JWT (con expiración de 15 minutos). Evita queries en cada request.
+- **Frontend**: componentes `<Gate permission="reports:read">` que condicionan la renderización según los permisos del usuario actual.
+
+## Arquitectura
+
+Backend:
+
+- `middleware/authorize.ts` — Middleware que extrae permisos del JWT y valida contra el endpoint
+- `services/permissions.ts` — Lógica de resolución de permisos (unión de roles)
+- `routes/admin/roles.ts` — CRUD de roles y asignaciones
+- `db/migrations/` — Migraciones para el esquema de permisos
+
+Frontend:
+
+- `context/AuthContext.tsx` — Context con usuario y permisos resueltos
+- `components/Gate.tsx` — Componente declarativo para control de acceso en UI
+- `pages/admin/roles/` — Panel de gestión de roles
+
+## Resultados
+
+- Migración de 200+ usuarios al nuevo sistema sin downtime ni pérdida de acceso.
+- Tickets de "dar acceso" reducidos en un 90%: el equipo de IT usa el panel directamente.
+- Cero incidentes de acceso no autorizado desde la implementación.
+- Auditoría de accesos implementada: cada acción queda registrada con usuario, timestamp, recurso y resultado (permitido/denegado).
+
+## Qué haría diferente
+
+Usaría una librería probada como CASL para la evaluación de permisos en el frontend en lugar de un Gate custom — el nuestro funciona pero no cubre edge cases como permisos condicionales basados en ownership del recurso. En el backend, consideraría Open Policy Agent (OPA) si el sistema necesitara escalar a políticas más complejas.

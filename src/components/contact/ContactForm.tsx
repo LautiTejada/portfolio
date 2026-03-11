@@ -1,8 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { Dictionary } from "@/i18n/getDictionary";
 
-export default function ContactForm() {
+interface ContactFormProps {
+	dict: Dictionary;
+}
+
+export default function ContactForm({ dict }: ContactFormProps) {
 	const [copied, setCopied] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
 	const email = "tu@email.com";
@@ -40,7 +45,7 @@ export default function ContactForm() {
 				{/* Email */}
 				<div>
 					<h2 className="text-sm font-medium uppercase tracking-wider text-foreground/40">
-						Email
+						{dict.contact.emailLabel}
 					</h2>
 					<div className="mt-2 flex items-center gap-2">
 						<span className="text-foreground/70">{email}</span>
@@ -48,7 +53,7 @@ export default function ContactForm() {
 							type="button"
 							onClick={handleCopyEmail}
 							className="rounded-md border border-foreground/10 px-2.5 py-1 text-xs font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-							{copied ? "Copied!" : "Copy"}
+							{copied ? dict.contact.copied : dict.contact.copy}
 						</button>
 					</div>
 				</div>
@@ -56,7 +61,7 @@ export default function ContactForm() {
 				{/* Links */}
 				<div>
 					<h2 className="text-sm font-medium uppercase tracking-wider text-foreground/40">
-						Links
+						{dict.contact.linksLabel}
 					</h2>
 					<div className="mt-2 flex flex-col gap-2">
 						<a
@@ -83,7 +88,7 @@ export default function ContactForm() {
 					<label
 						htmlFor="name"
 						className="block text-sm font-medium text-foreground/60">
-						Name
+						{dict.contact.nameLabel}
 					</label>
 					<input
 						id="name"
@@ -91,7 +96,7 @@ export default function ContactForm() {
 						type="text"
 						required
 						className="mt-1 w-full rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
-						placeholder="Your name"
+						placeholder={dict.contact.namePlaceholder}
 					/>
 				</div>
 
@@ -99,7 +104,7 @@ export default function ContactForm() {
 					<label
 						htmlFor="email"
 						className="block text-sm font-medium text-foreground/60">
-						Email
+						{dict.contact.emailFieldLabel}
 					</label>
 					<input
 						id="email"
@@ -107,7 +112,7 @@ export default function ContactForm() {
 						type="email"
 						required
 						className="mt-1 w-full rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
-						placeholder="you@example.com"
+						placeholder={dict.contact.emailPlaceholder}
 					/>
 				</div>
 
@@ -115,7 +120,7 @@ export default function ContactForm() {
 					<label
 						htmlFor="message"
 						className="block text-sm font-medium text-foreground/60">
-						Message
+						{dict.contact.messageLabel}
 					</label>
 					<textarea
 						id="message"
@@ -123,14 +128,14 @@ export default function ContactForm() {
 						required
 						rows={4}
 						className="mt-1 w-full resize-none rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
-						placeholder="What's on your mind?"
+						placeholder={dict.contact.messagePlaceholder}
 					/>
 				</div>
 
 				<button
 					type="submit"
 					className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-foreground/30 focus:ring-offset-2 focus:ring-offset-background">
-					{submitted ? "Opening mail client…" : "Send Message"}
+					{submitted ? dict.contact.sending : dict.contact.send}
 				</button>
 			</form>
 		</div>

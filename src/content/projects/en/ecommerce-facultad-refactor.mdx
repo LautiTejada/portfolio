@@ -1,0 +1,82 @@
+---
+title: "University E-commerce Refactor"
+slug: "ecommerce-facultad-refactor"
+summary: "Complete refactoring of an academic materials e-commerce: from a jQuery/PHP monolith to a modern architecture with React and Node.js, without interrupting service."
+role: "fullstack"
+stack:
+  - React
+  - Node.js
+  - Express
+  - MongoDB
+  - TypeScript
+  - Docker
+featured: false
+year: 2023
+confidentiality: "public"
+highlights:
+  - "Incremental migration from a PHP monolith to React + Node with zero downtime"
+  - "Load times reduced from ~6s to ~1.5s"
+  - "80% test coverage in the new codebase"
+repoUrl: "https://github.com/your-username/ecommerce-facultad"
+---
+
+## Problem
+
+A university cooperative's e-commerce sold academic materials (course packs, books, kits) with a system built years ago in PHP + jQuery + MySQL. The code had no tests, dependencies were outdated, and every change caused unpredictable regressions.
+
+Specific problems:
+
+- Load times of ~6 seconds on the catalog page.
+- No separation between frontend and backend: views were rendered in PHP with business logic mixed in.
+- The shopping cart used PHP sessions and was frequently lost.
+- No reproducible local development environment — each developer had a different XAMPP/WAMP configuration.
+
+## Solution
+
+An incremental refactor was planned in three phases, keeping the system in production throughout the entire process:
+
+**Phase 1 — Backend**: business logic was extracted into a REST API with Node.js/Express and TypeScript. The database was migrated from MySQL to MongoDB (the data was mostly documents without complex relations). Integration tests were written for each endpoint.
+
+**Phase 2 — Frontend**: the PHP/jQuery frontend was replaced with a React SPA. Work proceeded route by route: first the catalog, then individual product pages, then cart and checkout. During the transition, both versions coexisted behind a reverse proxy.
+
+**Phase 3 — Infrastructure**: everything was containerized with Docker Compose for local development. CI/CD was implemented with GitHub Actions (lint + tests + automatic deploy).
+
+## Technical Decisions
+
+- **Incremental migration over total rewrite**: a rewrite would have taken months without delivering value. Route-by-route migration allowed validating each change in production.
+- **MongoDB over MySQL**: products have highly variable attributes (a book has an ISBN, a kit has a materials list, a course pack has subject/professor info). MongoDB's flexible schema simplifies the model without needing auxiliary tables.
+- **React SPA over SSR**: SEO was not a priority (users arrive via internal university links, not via Google). An SPA simplifies deployment and architecture.
+- **Express over Fastify/Hono**: at the time of the project, the team had more experience with Express. Performance was not a bottleneck (low concurrent traffic volume).
+- **Docker Compose for dev**: eliminated the "works on my machine" problem. New developers productive in < 30 minutes.
+
+## Architecture
+
+```
+├── api/                  # Backend Node.js/Express
+│   ├── src/
+│   │   ├── routes/       # REST endpoints
+│   │   ├── services/     # Business logic
+│   │   ├── models/       # Mongoose schemas
+│   │   └── middleware/    # Auth, validation, error handling
+│   └── tests/            # Integration tests (supertest)
+├── web/                  # Frontend React (Vite)
+│   ├── src/
+│   │   ├── pages/        # Main views
+│   │   ├── components/   # Reusable components
+│   │   ├── hooks/        # Custom hooks (useCart, useAuth)
+│   │   └── api/          # Typed HTTP client
+├── docker-compose.yml    # MongoDB + API + Web
+└── .github/workflows/    # CI/CD
+```
+
+## Results
+
+- Load times: from ~6s to ~1.5s (catalog with 500+ products).
+- Test coverage: 80% on the backend, 60% on the frontend.
+- Developer onboarding: from "1-2 days configuring XAMPP" to "30 minutes with Docker."
+- Zero downtime during the 4-month migration.
+- Persistent cart (stored in the database per user) eliminated lost cart complaints.
+
+## What I Would Do Differently
+
+I would start by writing tests for the legacy system before touching anything — writing behavioral tests (end-to-end with Playwright) on the PHP system to have a safety net before migrating. I would also use a monorepo with workspaces (pnpm or Turborepo) from the start instead of two separate repos for api and web — the separation created unnecessary friction when sharing types between frontend and backend.

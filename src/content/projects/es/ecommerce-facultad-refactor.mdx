@@ -1,0 +1,82 @@
+---
+title: "Refactor de e-commerce universitario"
+slug: "ecommerce-facultad-refactor"
+summary: "Refactorización completa de un e-commerce de materiales académicos: de un monolito jQuery/PHP a una arquitectura moderna con React y Node.js, sin interrumpir el servicio."
+role: "fullstack"
+stack:
+  - React
+  - Node.js
+  - Express
+  - MongoDB
+  - TypeScript
+  - Docker
+featured: false
+year: 2023
+confidentiality: "public"
+highlights:
+  - "Migración incremental sin downtime de un monolito PHP a React + Node"
+  - "Tiempos de carga reducidos de ~6s a ~1.5s"
+  - "Cobertura de tests del 80% en la nueva codebase"
+repoUrl: "https://github.com/your-username/ecommerce-facultad"
+---
+
+## Problema
+
+El e-commerce de una cooperativa universitaria vendía materiales académicos (apuntes, libros, kits) con un sistema desarrollado hace años en PHP + jQuery + MySQL. El código no tenía tests, las dependencias estaban desactualizadas, y cada cambio generaba regresiones impredecibles.
+
+Problemas concretos:
+
+- Tiempos de carga de ~6 segundos en la página de catálogo.
+- No había separación entre frontend y backend: las vistas se renderizaban en PHP con lógica de negocio mezclada.
+- El carrito de compras usaba sesiones de PHP y se perdía frecuentemente.
+- No existía un entorno de desarrollo local reproducible — cada developer tenía una configuración distinta de XAMPP/WAMP.
+
+## Solución
+
+Se planificó un refactor incremental en tres fases, manteniendo el sistema en producción durante todo el proceso:
+
+**Fase 1 — Backend**: se extrajo la lógica de negocio a una API REST en Node.js/Express con TypeScript. Se migró la base de datos de MySQL a MongoDB (los datos eran mayormente documentos sin relaciones complejas). Se escribieron tests de integración para cada endpoint.
+
+**Fase 2 — Frontend**: se reemplazó el frontend PHP/jQuery por una SPA en React. Se trabajó ruta por ruta: primero catálogo, luego producto individual, después carrito y checkout. Durante la transición, ambas versiones coexistieron con un reverse proxy.
+
+**Fase 3 — Infraestructura**: se containerizó todo con Docker Compose para desarrollo local. Se implementó CI/CD con GitHub Actions (lint + tests + deploy automático).
+
+## Decisiones técnicas
+
+- **Migración incremental sobre rewrite total**: un rewrite hubiera tomado meses sin entregar valor. La migración ruta por ruta permitió validar cada cambio en producción.
+- **MongoDB sobre MySQL**: los productos tienen atributos muy variables (un libro tiene ISBN, un kit tiene lista de materiales, un apunte tiene materia/cátedra). El esquema flexible de MongoDB simplifica el modelo sin necesidad de tablas auxiliares.
+- **React SPA sobre SSR**: el SEO no era prioritario (los usuarios llegan por links internos de la facultad, no por Google). Una SPA simplifica el deploy y la arquitectura.
+- **Express sobre Fastify/Hono**: al momento del proyecto, el equipo tenía más experiencia con Express. La performance no era un bottleneck (bajo volumen de tráfico concurrente).
+- **Docker Compose para dev**: eliminó el problema de "en mi máquina funciona". Nuevo developer productivo en < 30 minutos.
+
+## Arquitectura
+
+```
+├── api/                  # Backend Node.js/Express
+│   ├── src/
+│   │   ├── routes/       # Endpoints REST
+│   │   ├── services/     # Lógica de negocio
+│   │   ├── models/       # Mongoose schemas
+│   │   └── middleware/    # Auth, validation, error handling
+│   └── tests/            # Tests de integración (supertest)
+├── web/                  # Frontend React (Vite)
+│   ├── src/
+│   │   ├── pages/        # Vistas principales
+│   │   ├── components/   # Componentes reutilizables
+│   │   ├── hooks/        # Custom hooks (useCart, useAuth)
+│   │   └── api/          # Cliente HTTP tipado
+├── docker-compose.yml    # MongoDB + API + Web
+└── .github/workflows/    # CI/CD
+```
+
+## Resultados
+
+- Tiempos de carga: de ~6s a ~1.5s (catálogo con 500+ productos).
+- Cobertura de tests: 80% en el backend, 60% en el frontend.
+- Onboarding de developers: de "1-2 días configurando XAMPP" a "30 minutos con Docker".
+- Cero downtime durante los 4 meses de migración.
+- El carrito persistente (almacenado en base de datos por usuario) eliminó las quejas de carritos perdidos.
+
+## Qué haría diferente
+
+Empezaría por los tests del sistema legacy antes de tocar nada — escribir tests de comportamiento (end-to-end con Playwright) sobre el sistema PHP para tener una safety net antes de migrar. También usaría un monorepo con workspaces (pnpm o Turborepo) desde el inicio en lugar de dos repos separados para api y web — la separación generó fricción innecesaria al compartir tipos entre frontend y backend.

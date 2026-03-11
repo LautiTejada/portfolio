@@ -7,9 +7,14 @@ import type {
 	ProjectRole,
 	ProjectConfidentiality,
 } from "@/lib/types/project";
+import type { Locale } from "@/i18n/config";
 
-/** Directorio donde se guardan los archivos MDX de proyectos. */
-const PROJECTS_DIR = path.join(process.cwd(), "src", "content", "projects");
+/** Directorio base donde se guardan los archivos MDX de proyectos por locale. */
+const PROJECTS_BASE = path.join(process.cwd(), "src", "content", "projects");
+
+function getProjectsDir(locale: Locale): string {
+	return path.join(PROJECTS_BASE, locale);
+}
 
 /** Roles válidos para validación en runtime. */
 const VALID_ROLES: ProjectRole[] = ["frontend", "backend", "fullstack"];
@@ -92,8 +97,11 @@ function validateFrontmatter(
  * Lee un archivo MDX de proyecto por slug.
  * Retorna `null` si el archivo no existe.
  */
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
-	const filePath = path.join(PROJECTS_DIR, `${slug}.mdx`);
+export async function getProjectBySlug(
+	locale: Locale,
+	slug: string,
+): Promise<Project | null> {
+	const filePath = path.join(getProjectsDir(locale), `${slug}.mdx`);
 
 	let raw: string;
 	try {
@@ -115,14 +123,14 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
  * Devuelve todos los proyectos.
  * Orden: featured primero, luego por año descendente.
  */
-export async function getAllProjects(): Promise<Project[]> {
-	const files = await readdir(PROJECTS_DIR);
+export async function getAllProjects(locale: Locale): Promise<Project[]> {
+	const files = await readdir(getProjectsDir(locale));
 	const mdxFiles = files.filter((f) => f.endsWith(".mdx"));
 
 	const projects = await Promise.all(
 		mdxFiles.map(async (file) => {
 			const slug = file.replace(/\.mdx$/, "");
-			const project = await getProjectBySlug(slug);
+			const project = await getProjectBySlug(locale, slug);
 			return project;
 		}),
 	);
@@ -144,8 +152,8 @@ export async function getAllProjects(): Promise<Project[]> {
  * Devuelve todos los slugs de proyectos.
  * Útil para `generateStaticParams`.
  */
-export async function getAllProjectSlugs(): Promise<string[]> {
-	const files = await readdir(PROJECTS_DIR);
+export async function getAllProjectSlugs(locale: Locale): Promise<string[]> {
+	const files = await readdir(getProjectsDir(locale));
 	return files
 		.filter((f) => f.endsWith(".mdx"))
 		.map((f) => f.replace(/\.mdx$/, ""));

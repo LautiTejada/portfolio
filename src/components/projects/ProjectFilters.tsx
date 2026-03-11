@@ -2,22 +2,30 @@
 
 import { useMemo, useState } from "react";
 import type { Project, ProjectRole } from "@/lib/types/project";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/getDictionary";
 import ProjectCard from "./ProjectCard";
 
 interface ProjectFiltersProps {
 	projects: Project[];
+	locale: Locale;
+	dict: Dictionary;
 }
 
-const ROLE_OPTIONS: { value: ProjectRole | "all"; label: string }[] = [
-	{ value: "all", label: "All" },
-	{ value: "frontend", label: "Frontend" },
-	{ value: "backend", label: "Backend" },
-	{ value: "fullstack", label: "Fullstack" },
-];
-
-export default function ProjectFilters({ projects }: ProjectFiltersProps) {
+export default function ProjectFilters({
+	projects,
+	locale,
+	dict,
+}: ProjectFiltersProps) {
 	const [activeRole, setActiveRole] = useState<ProjectRole | "all">("all");
 	const [activeTag, setActiveTag] = useState<string | null>(null);
+
+	const roleOptions: { value: ProjectRole | "all"; label: string }[] = [
+		{ value: "all", label: dict.projects.allRoles },
+		{ value: "frontend", label: dict.projects.roleLabels.frontend },
+		{ value: "backend", label: dict.projects.roleLabels.backend },
+		{ value: "fullstack", label: dict.projects.roleLabels.fullstack },
+	];
 
 	const allTags = useMemo(() => {
 		const tags = new Set<string>();
@@ -38,7 +46,7 @@ export default function ProjectFilters({ projects }: ProjectFiltersProps) {
 		<div>
 			{/* Role filter */}
 			<div className="flex flex-wrap gap-2">
-				{ROLE_OPTIONS.map(({ value, label }) => (
+				{roleOptions.map(({ value, label }) => (
 					<button
 						key={value}
 						onClick={() => setActiveRole(value)}
@@ -61,7 +69,7 @@ export default function ProjectFilters({ projects }: ProjectFiltersProps) {
 							? "bg-foreground text-background"
 							: "bg-foreground/5 text-foreground/60 hover:bg-foreground/10"
 					}`}>
-					All tags
+					{dict.projects.allTags}
 				</button>
 				{allTags.map((tag) => (
 					<button
@@ -84,11 +92,13 @@ export default function ProjectFilters({ projects }: ProjectFiltersProps) {
 						<ProjectCard
 							key={project.frontmatter.slug}
 							frontmatter={project.frontmatter}
+							locale={locale}
+							dict={dict}
 						/>
 					))
 				) : (
 					<p className="py-12 text-center text-sm text-foreground/40">
-						No projects match the selected filters.
+						{dict.projects.noResults}
 					</p>
 				)}
 			</div>

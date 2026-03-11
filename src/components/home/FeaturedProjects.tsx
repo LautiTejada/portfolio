@@ -1,24 +1,32 @@
 import Link from "next/link";
 import type { Project } from "@/lib/types/project";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/getDictionary";
 import ProjectCard from "@/components/projects/ProjectCard";
 
 interface FeaturedProjectsProps {
 	projects: Project[];
+	locale: Locale;
+	dict: Dictionary;
 }
 
-export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
+export default function FeaturedProjects({
+	projects,
+	locale,
+	dict,
+}: FeaturedProjectsProps) {
 	if (projects.length === 0) return null;
 
 	return (
 		<section>
 			<div className="flex items-end justify-between gap-4">
 				<h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-					Featured Projects
+					{dict.featuredProjects.title}
 				</h2>
 				<Link
-					href="/projects"
+					href={`/${locale}/projects`}
 					className="shrink-0 text-sm font-medium text-foreground/50 transition-colors hover:text-foreground">
-					View all →
+					{dict.featuredProjects.viewAll}
 				</Link>
 			</div>
 
@@ -27,6 +35,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 					<ProjectCard
 						key={project.frontmatter.slug}
 						frontmatter={project.frontmatter}
+						locale={locale}
+						dict={dict}
 					/>
 				))}
 			</div>

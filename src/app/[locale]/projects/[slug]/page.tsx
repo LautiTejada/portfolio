@@ -4,30 +4,36 @@ import Container from "@/components/layout/Container";
 import ProjectHeader from "@/components/projects/ProjectHeader";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import MDXWrapper from "@/components/projects/MDXWrapper";
+import { locales, type Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/getDictionary";
 
 interface PageProps {
-	params: { slug: string };
+	params: Promise<{ locale: string; slug: string }>;
 }
 
-/**
- * Extrae la sección "Qué haría diferente" del content MDX si existe.
- * Busca un heading ## que contenga esas palabras.
- */
 function extractRetroSection(content: string): string | undefined {
 	const regex =
-		/^##\s*qu[eé]\s+har[ií]a\s+diferente\s*\n([\s\S]*?)(?=^##\s|\z)/im;
+		/^##\s*(?:qu[eé]\s+har[ií]a\s+diferente|what\s+i\s+would\s+do\s+differently)\s*\n([\s\S]*?)(?=^##\s|$)/im;
 	const match = content.match(regex);
 	if (!match) return undefined;
 	return match[1].trim() || undefined;
 }
 
 export async function generateStaticParams() {
-	const slugs = await getAllProjectSlugs();
-	return slugs.map((slug) => ({ slug }));
+	const params: { locale: string; slug: string }[] = [];
+	for (const locale of locales) {
+		const slugs = await getAllProjectSlugs(locale);
+		for (const slug of slugs) {
+			params.push({ locale, slug });
+		}
+	}
+	return params;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-	const project = await getProjectBySlug(params.slug);
+	const { locale: loc, slug } = await params;
+	const locale = loc as Locale;
+	const project = await getProjectBySlug(locale, slug);
 	if (!project) return { title: "Project not found" };
 
 	const { title, summary } = project.frontmatter;
@@ -41,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
 			images: ["/og.png"],
 		},
 		twitter: {
-			card: "summary_large_image",
+			card: "summary_large_image" as const,
 			title: `${title} | Projects`,
 			description: summary,
 			images: ["/og.png"],
@@ -50,16 +56,19 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-	const { slug } = params;
-	const project = await getProjectBySlug(slug);
+	const { locale: loc, slug } = await params;
+	const locale = loc as Locale;
+	const project = await getProjectBySlug(locale, slug);
 
 	if (!project) notFound();
 
+	const dict = await getDictionary(locale);
 	const retroContent = extractRetroSection(project.content);
 
 	let MDXComponent: React.ComponentType;
 	try {
-		MDXComponent = (await import(`@/content/projects/${slug}.mdx`)).default;
+		MDXComponent = (await import(`@/content/projects/${locale}/${slug}.mdx`))
+			.default;
 	} catch {
 		notFound();
 	}
@@ -72,11 +81,12 @@ export default async function ProjectPage({ params }: PageProps) {
 
 	return (
 		<Container className="py-16">
-			<ProjectHeader frontmatter={project.frontmatter} />
+			<ProjectHeader frontmatter={project.frontmatter} dict={dict} />
 			<ProjectDetail
 				frontmatter={project.frontmatter}
 				mdxContent={mdxContent}
 				retroContent={retroContent}
+				dict={dict}
 			/>
 		</Container>
 	);

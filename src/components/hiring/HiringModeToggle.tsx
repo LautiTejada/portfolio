@@ -1,22 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Dictionary } from "@/i18n/getDictionary";
 
 export type HiringMode = "recruiter" | "techlead";
 
 const STORAGE_KEY = "hiringMode";
 
-const OPTIONS: { value: HiringMode; label: string }[] = [
-	{ value: "recruiter", label: "Recruiter" },
-	{ value: "techlead", label: "Tech Lead" },
-];
-
 interface HiringModeToggleProps {
 	onChange?: (mode: HiringMode) => void;
+	dict: Dictionary;
 }
 
-export default function HiringModeToggle({ onChange }: HiringModeToggleProps) {
+export default function HiringModeToggle({
+	onChange,
+	dict,
+}: HiringModeToggleProps) {
 	const [mode, setMode] = useState<HiringMode>("recruiter");
+
+	const options: { value: HiringMode; label: string }[] = [
+		{ value: "recruiter", label: dict.hiring.recruiter },
+		{ value: "techlead", label: dict.hiring.techLead },
+	];
 
 	useEffect(() => {
 		const stored = localStorage.getItem(STORAGE_KEY);
@@ -34,9 +39,9 @@ export default function HiringModeToggle({ onChange }: HiringModeToggleProps) {
 	return (
 		<div
 			role="radiogroup"
-			aria-label="Hiring mode view"
+			aria-label={dict.hiring.ariaLabel}
 			className="inline-flex rounded-lg border border-foreground/10 p-0.5">
-			{OPTIONS.map(({ value, label }) => (
+			{options.map(({ value, label }) => (
 				<button
 					key={value}
 					role="radio"

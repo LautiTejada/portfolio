@@ -1,0 +1,77 @@
+---
+title: "E-commerce for Hotel Chain"
+slug: "ecommerce-hoteles"
+summary: "Development of a direct booking platform for a hotel chain, featuring an availability engine, payment gateway, and admin panel."
+role: "fullstack"
+stack:
+  - Next.js
+  - TypeScript
+  - Node.js
+  - PostgreSQL
+  - Stripe
+  - Tailwind CSS
+featured: true
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Availability engine with search by date, location, and room type"
+  - "Stripe integration for payments and refund management"
+  - "Admin panel to manage properties, rates, and bookings"
+liveUrl: "https://example.com/video-demo-placeholder"
+---
+
+## Problem
+
+The hotel chain depended entirely on third-party platforms (Booking, Expedia) to receive online reservations. This meant commissions between 15% and 25% per booking, with no control over the user experience and no direct access to customer data.
+
+They had a static institutional website that displayed photos and a phone number but did not allow online booking or availability checks.
+
+## Solution
+
+A direct booking platform was developed with three main components:
+
+1. **Public site**: hotel catalog with search by date and location, property detail pages, and a reservation flow with online payment.
+2. **Availability engine**: a service that calculates real-time availability by cross-referencing existing bookings, manual blocks, and rate rules.
+3. **Admin panel**: an interface for the hotel team to manage properties, rooms, seasonal rates, and view booking status.
+
+## Technical Decisions
+
+- **Next.js App Router**: SSR for hotel detail pages (SEO is critical for capturing organic traffic), client components for the search engine and checkout flow.
+- **PostgreSQL with relational schema**: tables for properties, rooms, rates (with date ranges), bookings, and blocks. Availability queries optimized with date range indexes.
+- **Stripe Checkout**: the entire payment flow was delegated to Stripe to avoid handling card data. Webhooks confirm payments and update booking status.
+- **Optimistic UI in checkout**: a temporary 15-minute "hold" is reserved when payment begins to prevent double booking while the user completes the Stripe form.
+- **Tailwind CSS**: mobile-first responsive design, critical since 70%+ of hotel traffic comes from mobile devices.
+
+## Architecture
+
+```
+src/
+├── app/
+│   ├── (public)/         # Public site (hotels, search, checkout)
+│   ├── admin/            # Admin panel (protected)
+│   └── api/
+│       ├── availability/ # Availability engine
+│       ├── bookings/     # Booking CRUD
+│       └── webhooks/     # Stripe webhooks
+├── lib/
+│   ├── availability.ts   # Availability calculation logic
+│   ├── stripe.ts         # Stripe client and helpers
+│   └── db/               # Prisma client and queries
+└── components/
+    ├── search/           # Search and filters
+    ├── booking/          # Booking flow
+    └── admin/            # Admin panel components
+```
+
+Deployment is on Vercel (frontend + API routes) with PostgreSQL on a managed service. Stripe handles all payment processing.
+
+## Results
+
+- The platform processes direct bookings, eliminating intermediary commissions.
+- The availability engine responds in < 200ms for complex searches (multiple properties, date ranges up to 30 days).
+- The admin panel allows the hotel team to manage seasonal rates without technical intervention.
+- Mobile-first: the complete flow from search → detail → booking → payment works seamlessly on mobile.
+
+## What I Would Do Differently
+
+I would implement a caching layer for the most frequent availability searches (same dates, same city) using Redis, since the PostgreSQL calculation scales well but has unnecessary cost for repeated queries. I would also separate the admin panel into an independent project instead of having it as protected routes within the same Next.js app — the admin bundle should not affect the public site.

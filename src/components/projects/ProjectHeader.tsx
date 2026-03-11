@@ -1,16 +1,15 @@
 import type { ProjectFrontmatter } from "@/lib/types/project";
+import type { Dictionary } from "@/i18n/getDictionary";
 
 interface ProjectHeaderProps {
 	frontmatter: ProjectFrontmatter;
+	dict: Dictionary;
 }
 
-const roleLabels: Record<ProjectFrontmatter["role"], string> = {
-	frontend: "Frontend",
-	backend: "Backend",
-	fullstack: "Fullstack",
-};
-
-export default function ProjectHeader({ frontmatter }: ProjectHeaderProps) {
+export default function ProjectHeader({
+	frontmatter,
+	dict,
+}: ProjectHeaderProps) {
 	const { title, year, role, confidentiality, stack, repoUrl, liveUrl } =
 		frontmatter;
 
@@ -25,7 +24,7 @@ export default function ProjectHeader({ frontmatter }: ProjectHeaderProps) {
 
 			<div className="mt-4 flex flex-wrap items-center gap-2">
 				<span className="rounded-md bg-foreground/10 px-2.5 py-1 text-xs font-medium">
-					{roleLabels[role]}
+					{dict.projects.roleLabels[role]}
 				</span>
 				<span
 					className={`rounded-md px-2.5 py-1 text-xs font-medium ${
@@ -33,7 +32,7 @@ export default function ProjectHeader({ frontmatter }: ProjectHeaderProps) {
 							? "bg-green-500/10 text-green-700 dark:text-green-400"
 							: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400"
 					}`}>
-					{confidentiality === "public" ? "Public" : "Internal"}
+					{dict.projects.confidentialityLabels[confidentiality]}
 				</span>
 
 				{repoUrl && (
@@ -42,7 +41,7 @@ export default function ProjectHeader({ frontmatter }: ProjectHeaderProps) {
 						target="_blank"
 						rel="noopener noreferrer"
 						className="rounded-md border border-foreground/10 px-2.5 py-1 text-xs font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-						Repo ↗
+						{dict.projects.repo} ↗
 					</a>
 				)}
 				{liveUrl && (
@@ -51,7 +50,7 @@ export default function ProjectHeader({ frontmatter }: ProjectHeaderProps) {
 						target="_blank"
 						rel="noopener noreferrer"
 						className="rounded-md border border-foreground/10 px-2.5 py-1 text-xs font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-						Live ↗
+						{dict.projects.live} ↗
 					</a>
 				)}
 			</div>

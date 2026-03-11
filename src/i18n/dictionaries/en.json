@@ -1,0 +1,104 @@
+{
+	"nav": {
+		"home": "Home",
+		"projects": "Projects",
+		"contact": "Contact"
+	},
+	"hero": {
+		"label": "Portfolio",
+		"title": "Fullstack Developer —",
+		"titleHighlight": "Next.js / TypeScript / Node",
+		"description": "I build performant, maintainable web products with a focus on developer experience and real-world impact.",
+		"viewProjects": "View Projects",
+		"contact": "Contact"
+	},
+	"featuredProjects": {
+		"title": "Featured Projects",
+		"viewAll": "View all →"
+	},
+	"howIWork": {
+		"title": "How I Work",
+		"steps": [
+			{
+				"number": "01",
+				"title": "Discover",
+				"description": "Understand the problem, the users, and the constraints before writing a single line of code."
+			},
+			{
+				"number": "02",
+				"title": "Build",
+				"description": "Ship incrementally with clean architecture, type safety, and a focus on developer experience."
+			},
+			{
+				"number": "03",
+				"title": "Test",
+				"description": "Validate with real feedback. Automated tests, performance audits, and edge-case coverage."
+			},
+			{
+				"number": "04",
+				"title": "Ship",
+				"description": "Deploy with confidence. CI/CD, monitoring, and documentation from day one."
+			}
+		]
+	},
+	"cta": {
+		"title": "Let's build something",
+		"description": "Have a project in mind? I'm open to new opportunities and collaborations.",
+		"button": "Get in Touch"
+	},
+	"projects": {
+		"title": "Projects",
+		"description": "A curated selection of projects I've worked on — filtered by role and tech stack.",
+		"roleLabels": {
+			"frontend": "Frontend",
+			"backend": "Backend",
+			"fullstack": "Fullstack"
+		},
+		"confidentialityLabels": {
+			"public": "Public",
+			"internal": "Internal"
+		},
+		"repo": "Repo",
+		"live": "Live",
+		"allRoles": "All",
+		"allTags": "All tags",
+		"noResults": "No projects match the selected filters.",
+		"summary": "Summary",
+		"highlights": "Highlights",
+		"links": "Links",
+		"repository": "Repository",
+		"liveDemo": "Live Demo",
+		"retroTitle": "What I Would Do Differently"
+	},
+	"hiring": {
+		"recruiter": "Recruiter",
+		"techLead": "Tech Lead",
+		"ariaLabel": "Hiring mode view"
+	},
+	"contact": {
+		"title": "Contact",
+		"description": "Have a project in mind or just want to say hi? Reach out.",
+		"emailLabel": "Email",
+		"linksLabel": "Links",
+		"copy": "Copy",
+		"copied": "Copied!",
+		"nameLabel": "Name",
+		"namePlaceholder": "Your name",
+		"emailFieldLabel": "Email",
+		"emailPlaceholder": "you@example.com",
+		"messageLabel": "Message",
+		"messagePlaceholder": "What's on your mind?",
+		"send": "Send Message",
+		"sending": "Opening mail client…"
+	},
+	"notFound": {
+		"code": "404",
+		"title": "Page not found",
+		"description": "The page you're looking for doesn't exist or has been moved.",
+		"goHome": "Go Home",
+		"viewProjects": "View Projects"
+	},
+	"footer": {
+		"rights": "All rights reserved."
+	}
+}
