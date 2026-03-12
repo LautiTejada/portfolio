@@ -93,6 +93,8 @@
 		"send": "Enviar Mensaje",
 		"sending": "Enviando…",
 		"successMessage": "¡Mensaje enviado! Te responderé pronto.",
+		"successDetail": "Este es el resumen de lo que enviaste:",
+		"close": "Cerrar",
 		"downloadCV": "Descargar CV"
 	},
 	"notFound": {

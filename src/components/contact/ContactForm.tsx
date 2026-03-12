@@ -10,6 +10,11 @@ interface ContactFormProps {
 
 export default function ContactForm({ dict }: ContactFormProps) {
 	const [copied, setCopied] = useState(false);
+	const [sentData, setSentData] = useState<{
+		name: string;
+		email: string;
+		message: string;
+	} | null>(null);
 	const formRef = useRef<HTMLFormElement>(null);
 	const email = "tejadalautaro616@gmail.com";
 
@@ -17,8 +22,24 @@ export default function ContactForm({ dict }: ContactFormProps) {
 		success: false,
 	});
 
+	const pendingDataRef = useRef<{
+		name: string;
+		email: string;
+		message: string;
+	} | null>(null);
+
+	function handleSubmit(formData: FormData) {
+		pendingDataRef.current = {
+			name: (formData.get("name") as string) || "",
+			email: (formData.get("email") as string) || "",
+			message: (formData.get("message") as string) || "",
+		};
+		formAction(formData);
+	}
+
 	useEffect(() => {
 		if (state.success) {
+			setSentData(pendingDataRef.current);
 			formRef.current?.reset();
 		}
 	}, [state]);
@@ -81,12 +102,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
 			</div>
 
 			{/* Form column */}
-			<form ref={formRef} action={formAction} className="space-y-4">
-				{state.success && (
-					<div className="rounded-md bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-400">
-						{dict.contact.successMessage}
-					</div>
-				)}
+			<form ref={formRef} action={handleSubmit} className="space-y-4">
 				{state.error && (
 					<div className="rounded-md bg-red-500/10 px-4 py-3 text-sm text-red-700 dark:text-red-400">
 						{state.error}
@@ -103,6 +119,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
 						name="name"
 						type="text"
 						required
+						maxLength={100}
 						className="mt-1 w-full rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
 						placeholder={dict.contact.namePlaceholder}
 					/>
@@ -119,6 +136,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
 						name="email"
 						type="email"
 						required
+						maxLength={254}
 						className="mt-1 w-full rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
 						placeholder={dict.contact.emailPlaceholder}
 					/>
@@ -134,6 +152,7 @@ export default function ContactForm({ dict }: ContactFormProps) {
 						id="message"
 						name="message"
 						required
+						maxLength={5000}
 						rows={4}
 						className="mt-1 w-full resize-none rounded-md border border-foreground/10 bg-transparent px-3 py-2 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30"
 						placeholder={dict.contact.messagePlaceholder}
@@ -147,6 +166,73 @@ export default function ContactForm({ dict }: ContactFormProps) {
 					{isPending ? dict.contact.sending : dict.contact.send}
 				</button>
 			</form>
+
+			{/* Success modal */}
+			{sentData && (
+				<div
+					className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+					onClick={() => setSentData(null)}>
+					<div
+						className="w-full max-w-md animate-fade-in-up rounded-2xl border border-foreground/10 bg-background p-8 shadow-2xl"
+						onClick={(e) => e.stopPropagation()}>
+						{/* Check icon */}
+						<div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-500/10">
+							<svg
+								width="28"
+								height="28"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2.5"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="text-green-600 dark:text-green-400">
+								<path d="M20 6L9 17l-5-5" />
+							</svg>
+						</div>
+
+						{/* Title */}
+						<h3 className="mt-5 text-center text-xl font-semibold tracking-tight">
+							{dict.contact.successMessage}
+						</h3>
+						<p className="mt-1 text-center text-sm text-foreground/50">
+							{dict.contact.successDetail}
+						</p>
+
+						{/* Sent data summary */}
+						<div className="mt-6 space-y-4 rounded-xl bg-foreground/[0.03] p-5 ring-1 ring-foreground/[0.06]">
+							<div>
+								<span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">
+									{dict.contact.nameLabel}
+								</span>
+								<p className="mt-1 text-sm font-medium">{sentData.name}</p>
+							</div>
+							<div className="border-t border-foreground/[0.06] pt-4">
+								<span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">
+									{dict.contact.emailFieldLabel}
+								</span>
+								<p className="mt-1 text-sm font-medium">{sentData.email}</p>
+							</div>
+							<div className="border-t border-foreground/[0.06] pt-4">
+								<span className="text-[11px] font-semibold uppercase tracking-widest text-foreground/35">
+									{dict.contact.messageLabel}
+								</span>
+								<p className="mt-1 text-sm leading-relaxed text-foreground/70 whitespace-pre-wrap">
+									{sentData.message}
+								</p>
+							</div>
+						</div>
+
+						{/* Close button */}
+						<button
+							type="button"
+							onClick={() => setSentData(null)}
+							className="mt-6 w-full rounded-lg bg-foreground py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-foreground/30 focus:ring-offset-2 focus:ring-offset-background">
+							{dict.contact.close}
+						</button>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

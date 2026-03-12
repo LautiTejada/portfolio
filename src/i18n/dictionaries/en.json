@@ -93,6 +93,8 @@
 		"send": "Send Message",
 		"sending": "Sending…",
 		"successMessage": "Message sent! I'll get back to you soon.",
+		"successDetail": "Here's a summary of what you sent:",
+		"close": "Close",
 		"downloadCV": "Download CV"
 	},
 	"notFound": {
