@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ProjectFrontmatter } from "@/lib/types/project";
 import type { Dictionary } from "@/i18n/getDictionary";
 import type { Locale } from "@/i18n/config";
+import ImageShowcase from "./ImageShowcase";
 
 interface ProjectHeaderProps {
 	frontmatter: ProjectFrontmatter;
@@ -23,6 +24,7 @@ export default function ProjectHeader({
 		stack,
 		repoUrl,
 		liveUrl,
+		images,
 	} = frontmatter;
 
 	return (
@@ -55,7 +57,7 @@ export default function ProjectHeader({
 				{summary}
 			</p>
 
-			{/* Info bar — badges + links */}
+			{/* Info bar */}
 			<div className="mt-6 flex flex-wrap items-center gap-2.5">
 				<span className="rounded-full bg-foreground/[0.08] px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-foreground/70">
 					{dict.projects.roleLabels[role]}
@@ -70,7 +72,6 @@ export default function ProjectHeader({
 				</span>
 				<span className="text-xs tabular-nums text-foreground/30">{year}</span>
 
-				{/* Spacer pushes links to the right on wide screens */}
 				<div className="hidden sm:block sm:flex-1" />
 
 				{repoUrl && (
@@ -127,6 +128,14 @@ export default function ProjectHeader({
 					</span>
 				))}
 			</div>
+
+			{/* Image showcase */}
+			{images && images.length > 0 && (
+				<ImageShowcase images={images} title={title} urlHint={liveUrl} />
+			)}
+
+			{/* Spacer when floating image overflows */}
+			{images && images.length > 1 && <div className="h-10 sm:h-12" />}
 		</header>
 	);
 }
