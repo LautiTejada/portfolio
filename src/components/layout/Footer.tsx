@@ -2,8 +2,11 @@ import Container from "./Container";
 import type { Dictionary } from "@/i18n/getDictionary";
 
 const socialLinks = [
-	{ href: "https://github.com", label: "GitHub" },
-	{ href: "https://linkedin.com", label: "LinkedIn" },
+	{ href: "https://github.com/lauti3314", label: "GitHub" },
+	{
+		href: "https://www.linkedin.com/in/lautaro-tejada-733b47264/",
+		label: "LinkedIn",
+	},
 ] as const;
 
 interface FooterProps {
@@ -11,25 +14,72 @@ interface FooterProps {
 }
 
 export default function Footer({ dict }: FooterProps) {
-	return (
-		<footer className="border-t border-foreground/10 py-8">
-			<Container className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-				<p className="text-sm text-foreground/50">
-					&copy; {new Date().getFullYear()} Portfolio. {dict.footer.rights}
-				</p>
+	const navLinks = [
+		{ href: "#main-content", label: dict.nav.home },
+		{ href: "#projects", label: dict.nav.projects },
+		{ href: "#contact", label: dict.nav.contact },
+	];
 
-				<nav className="flex items-center gap-4">
-					{socialLinks.map(({ href, label }) => (
+	return (
+		<footer className="border-t border-foreground/10 py-12">
+			<Container>
+				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+					{/* Navigation */}
+					<div>
+						<h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
+							{dict.footer.navigation}
+						</h3>
+						<ul className="space-y-2">
+							{navLinks.map(({ href, label }) => (
+								<li key={label}>
+									<a
+										href={href}
+										className="text-sm text-foreground/50 transition-colors hover:text-foreground">
+										{label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					{/* Contact */}
+					<div>
+						<h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
+							{dict.footer.contact}
+						</h3>
 						<a
-							key={label}
-							href={href}
-							target="_blank"
-							rel="noopener noreferrer"
+							href="mailto:tejadalautaro616@gmail.com"
 							className="text-sm text-foreground/50 transition-colors hover:text-foreground">
-							{label}
+							tejadalautaro616@gmail.com
 						</a>
-					))}
-				</nav>
+						<nav className="mt-3 flex items-center gap-4">
+							{socialLinks.map(({ href, label }) => (
+								<a
+									key={label}
+									href={href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="text-sm text-foreground/50 transition-colors hover:text-foreground">
+									{label}
+								</a>
+							))}
+						</nav>
+					</div>
+
+					{/* Built with */}
+					<div className="sm:col-span-2 lg:col-span-1">
+						<p className="text-sm text-foreground/40">
+							{dict.footer.builtWith}
+						</p>
+					</div>
+				</div>
+
+				<div className="mt-10 border-t border-foreground/10 pt-6 text-center">
+					<p className="text-xs text-foreground/40">
+						&copy; {new Date().getFullYear()} Lautaro Tejada.{" "}
+						{dict.footer.rights}
+					</p>
+				</div>
 			</Container>
 		</footer>
 	);

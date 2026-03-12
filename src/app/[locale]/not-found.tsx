@@ -4,24 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "@/components/layout/Container";
 import { locales, defaultLocale, type Locale } from "@/i18n/config";
+import es from "@/i18n/dictionaries/es.json";
+import en from "@/i18n/dictionaries/en.json";
 
-const strings: Record<
-	Locale,
-	{ title: string; description: string; goHome: string; viewProjects: string }
-> = {
-	es: {
-		title: "Página no encontrada",
-		description: "La página que buscás no existe o fue movida.",
-		goHome: "Ir al Inicio",
-		viewProjects: "Ver Proyectos",
-	},
-	en: {
-		title: "Page not found",
-		description: "The page you're looking for doesn't exist or has been moved.",
-		goHome: "Go Home",
-		viewProjects: "View Projects",
-	},
-};
+const dictionaries = { es, en } as const;
 
 export default function NotFound() {
 	const pathname = usePathname();
@@ -29,7 +15,7 @@ export default function NotFound() {
 	const locale: Locale = locales.includes(segment as Locale)
 		? (segment as Locale)
 		: defaultLocale;
-	const t = strings[locale];
+	const t = dictionaries[locale].notFound;
 
 	return (
 		<Container className="flex flex-col items-center justify-center py-32 text-center">

@@ -35,7 +35,7 @@ export default function ProjectCard({
 	const prefix = locale ? `/${locale}` : "";
 
 	return (
-		<article className="group rounded-xl border border-foreground/10 p-5 transition-colors hover:border-foreground/20 focus-within:ring-2 focus-within:ring-foreground/30">
+		<article className="group rounded-xl border border-foreground/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-foreground/20 hover:shadow-lg hover:shadow-foreground/5 focus-within:ring-2 focus-within:ring-foreground/30">
 			<div className="flex items-start justify-between gap-3">
 				<Link
 					href={`${prefix}/projects/${slug}`}

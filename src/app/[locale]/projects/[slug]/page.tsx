@@ -1,8 +1,13 @@
 import { notFound } from "next/navigation";
-import { getProjectBySlug, getAllProjectSlugs } from "@/lib/content/projects";
+import {
+	getProjectBySlug,
+	getAllProjectSlugs,
+	getAllProjects,
+} from "@/lib/content/projects";
 import Container from "@/components/layout/Container";
 import ProjectHeader from "@/components/projects/ProjectHeader";
 import ProjectDetail from "@/components/projects/ProjectDetail";
+import ProjectNavigation from "@/components/projects/ProjectNavigation";
 import MDXWrapper from "@/components/projects/MDXWrapper";
 import { locales, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -44,13 +49,11 @@ export async function generateMetadata({ params }: PageProps) {
 		openGraph: {
 			title: `${title} | Projects`,
 			description: summary,
-			images: ["/og.png"],
 		},
 		twitter: {
 			card: "summary_large_image" as const,
 			title: `${title} | Projects`,
 			description: summary,
-			images: ["/og.png"],
 		},
 	};
 }
@@ -64,6 +67,26 @@ export default async function ProjectPage({ params }: PageProps) {
 
 	const dict = await getDictionary(locale);
 	const retroContent = extractRetroSection(project.content);
+
+	// Get all projects for prev/next navigation
+	const allProjects = await getAllProjects(locale);
+	const currentIndex = allProjects.findIndex(
+		(p) => p.frontmatter.slug === slug,
+	);
+	const prev =
+		currentIndex > 0
+			? {
+					slug: allProjects[currentIndex - 1].frontmatter.slug,
+					title: allProjects[currentIndex - 1].frontmatter.title,
+				}
+			: null;
+	const next =
+		currentIndex < allProjects.length - 1
+			? {
+					slug: allProjects[currentIndex + 1].frontmatter.slug,
+					title: allProjects[currentIndex + 1].frontmatter.title,
+				}
+			: null;
 
 	let MDXComponent: React.ComponentType;
 	try {
@@ -88,6 +111,7 @@ export default async function ProjectPage({ params }: PageProps) {
 				retroContent={retroContent}
 				dict={dict}
 			/>
+			<ProjectNavigation prev={prev} next={next} locale={locale} />
 		</Container>
 	);
 }

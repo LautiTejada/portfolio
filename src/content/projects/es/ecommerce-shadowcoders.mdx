@@ -1,0 +1,84 @@
+---
+title: "E-commerce ShadowCoders"
+slug: "ecommerce-shadowcoders"
+summary: "Desarrollo fullstack de un e-commerce completo con frontend en React 19 + Vite y backend en Java/Spring Boot. Incluye catálogo, carrito, panel de administración y pasarela de pagos."
+role: "fullstack"
+stack:
+  - React
+  - TypeScript
+  - Vite
+  - Material UI
+  - Zustand
+  - Java
+  - Spring Boot
+featured: true
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Frontend moderno con React 19, Vite y TypeScript"
+  - "Backend robusto con Java y Spring Boot"
+  - "Panel de administración con gestión de productos y descuentos"
+repoUrl: "https://github.com/LautiTejada/EcommerceShadowCodersFront"
+---
+
+## Contexto
+
+Proyecto de e-commerce desarrollado en equipo bajo el nombre ShadowCoders. El objetivo era construir una plataforma de comercio electrónico completa, desde el catálogo de productos hasta el checkout con pagos, incluyendo un panel de administración para gestionar el inventario.
+
+## Solución
+
+Se desarrolló una arquitectura separada en frontend y backend:
+
+**Frontend**: SPA construida con React 19, Vite y TypeScript. Se usó Material UI (MUI 7) como sistema de diseño, Zustand para el estado global (carrito, autenticación), React Router DOM para la navegación y Axios para la comunicación con la API.
+
+**Backend**: API REST desarrollada en Java con Spring Boot, manejando la lógica de negocio, persistencia de datos, autenticación y autorización.
+
+## Decisiones técnicas
+
+- **React 19 + Vite**: combinación moderna y rápida para desarrollo. Vite ofrece HMR instantáneo y builds optimizados. React 19 trae mejoras de performance.
+- **Zustand sobre Redux**: estado global simple y sin boilerplate. Para un e-commerce con carrito y auth, Zustand cubre las necesidades sin la complejidad de Redux Toolkit.
+- **Material UI 7**: componentes pre-construidos de alta calidad que aceleraron el desarrollo de tablas, formularios, modales y navegación.
+- **Arquitectura frontend/backend separada**: permite que cada equipo trabaje de forma independiente. El frontend consume endpoints REST documentados.
+- **Swiper para carruseles**: carruseles de productos con soporte táctil nativo y transiciones fluidas.
+- **SweetAlert2**: alertas y confirmaciones con mejor UX que los alerts nativos del browser.
+
+## Arquitectura
+
+**Frontend:**
+
+```
+dresscode-front/
+├── src/
+│   ├── components/     # Componentes de UI (ProductCard, Cart, Admin)
+│   ├── pages/          # Vistas principales (Home, Catálogo, Checkout)
+│   ├── store/          # Stores de Zustand (cart, auth, products)
+│   ├── services/       # Llamadas a la API con Axios
+│   ├── types/          # Interfaces TypeScript
+│   └── utils/          # Helpers y constantes
+```
+
+**Backend:**
+
+```
+├── src/main/java/
+│   ├── controllers/    # Endpoints REST
+│   ├── services/       # Lógica de negocio
+│   ├── models/         # Entidades JPA
+│   ├── repositories/   # Acceso a datos
+│   └── security/       # Autenticación y autorización
+```
+
+## Trabajo en equipo
+
+El desarrollo fue colaborativo: el repositorio frontend tiene 71 pull requests mergeados con contribuciones de múltiples integrantes del equipo. Se trabajó con un flujo de Git basado en ramas feature y code review via PRs.
+
+## Resultados
+
+- E-commerce funcional con catálogo, búsqueda, carrito persistente y checkout.
+- Panel de administración para gestión de productos, categorías y descuentos.
+- 71 PRs mergeados en el frontend con workflow de Git organizado.
+- TypeScript (81.9% del código) garantizando type safety en todo el frontend.
+
+## Qué haría diferente
+
+Migraría a Next.js para obtener SSR/SSG en las páginas de catálogo (mejor SEO y performance inicial). También implementaría testing desde el inicio — al desarrollar en equipo, los tests previenen regresiones cuando múltiples personas tocan el mismo código. Finalmente, movería `node_modules` fuera del repositorio (actualmente committeado en la rama dev).

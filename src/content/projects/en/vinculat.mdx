@@ -1,0 +1,122 @@
+---
+title: "Vinculat — Organizational Management Platform"
+slug: "vinculat"
+summary: "Fullstack development of a management platform for health and social services organizations. Multi-role membership system, segmented benefits, targeted notifications, and statistics dashboards."
+role: "fullstack"
+stack:
+  - Next.js
+  - React
+  - TypeScript
+  - NestJS
+  - PostgreSQL
+  - MikroORM
+  - Tailwind CSS
+featured: true
+year: 2025
+confidentiality: "internal"
+highlights:
+  - "JWT authentication with refresh tokens and 18 hierarchical roles"
+  - "Multi-role memberships with auto-generated organization-scoped IDs"
+  - "Multi-format image processing pipeline with Sharp"
+---
+
+> **Confidentiality note**: Vinculat is an internal application without public access. User data and specific metrics have been omitted. The description accurately reflects the technical work performed.
+
+## Context
+
+Vinculat is an organizational management platform for health and social services entities. It manages three user types (Staff, Patients, and Clients) with very different access needs and functionalities. The app centralizes role-based dashboards, user and membership administration, benefits management, and targeted notification delivery.
+
+I participated as a fullstack developer in a 2-person team, building both the backend (NestJS) and the frontend (Next.js).
+
+## Solution — Backend
+
+A REST API was built with **NestJS 10** and **TypeScript**, connected to **PostgreSQL** via **MikroORM 6**. The backend handles all business logic, authentication, authorization, and data processing.
+
+### Authentication and authorization
+
+- JWT with access token (15 min) + refresh token (7 days) using Passport.js and bcrypt.
+- System of **18 hierarchical roles** organized by department (HR, Legal, Administration, Clinical, Workshops, etc.).
+- Granular authorization based on **resource + action** with custom guards.
+- Assignable role policies defining which roles each department can create.
+
+### Multi-role memberships
+
+- A user can have multiple roles within a membership.
+- Each membership generates a **unique sequential ID** per organization with typed format: `S-000123` (Staff), `P-04567` (Patient), `C-00988` (Client).
+- Uniqueness validation at the database level.
+
+### Benefits with segmentation
+
+- Benefits with lifecycle: `DRAFT → ACTIVE → ENDED`.
+- Configurable time windows and visibility segmented by user type and role.
+- Per-user claim limits and M:N categorization.
+- Optimized indexes for active benefit queries.
+
+### Image pipeline
+
+- Upload with **Sharp** generating multiple variants (original, 256px, 64px, WebP) for avatars and benefits.
+- Immutable cache of 1 year and path traversal protection.
+
+### Statistics dashboard
+
+- Raw SQL queries via **Knex** for metrics on active/inactive users by type, benefits by status, and redemption rates.
+- Optional time filters for period-based analysis.
+
+## Solution — Frontend
+
+The frontend was developed with **Next.js 15** (App Router), **React 19**, and **TypeScript**. The interface consumes the backend's REST API and presents differentiated views based on user type and permissions.
+
+### Authentication and protected routes
+
+- Authentication with **NextAuth**, session management and token refresh.
+- Automatic redirection to dashboards based on user type and role.
+
+### Role-based navigation
+
+- Role-based access control for multiple internal areas.
+- Differentiated views for administration, staff, clients, and patients.
+
+### Management modules
+
+- User, benefits, and segmented notification management.
+- Forms with **React Hook Form** + **Zod** for typed validation.
+- Dashboards with metrics and charts using **Recharts**.
+- Styling with **Tailwind CSS** for visual consistency.
+
+## Technical decisions
+
+- **NestJS**: opinionated framework with dependency injection, decorators, and modular structure. Ideal for complex APIs with multiple domains.
+- **MikroORM over TypeORM**: Unit of Work pattern, better migration support, and more flexible query builder.
+- **PostgreSQL**: relational model needed for the complexity of relationships between users, memberships, roles, benefits, and claims.
+- **Next.js App Router + NextAuth**: framework-integrated authentication, nested layouts for role-based views, and Server Components for efficient loading.
+- **Sharp for images**: server-side processing generating multiple resolutions, avoiding heavy image loading on mobile devices.
+- **Helmet + custom guards**: HTTP-level security and granular authorization on every endpoint.
+
+## Full stack
+
+| Layer      | Technology                                                                               |
+| ---------- | ---------------------------------------------------------------------------------------- |
+| Frontend   | Next.js 15, React 19, TypeScript, Tailwind CSS, NextAuth, React Hook Form, Zod, Recharts |
+| Backend    | NestJS 10, TypeScript 5.9, Passport.js, JWT, bcrypt                                      |
+| Database   | PostgreSQL, MikroORM 6 (migrations, seeders, query builder)                              |
+| Processing | Sharp (multi-format images), Nodemailer (SMTP email)                                     |
+| Validation | class-validator, class-transformer, Zod                                                  |
+| Testing    | Jest, Supertest, Faker.js                                                                |
+| Security   | Helmet, cookie-parser, custom guards                                                     |
+
+## Additional details
+
+- The app handles geographic data for all Argentine provinces and localities.
+- Notification system with severity levels (info, warning, critical).
+- Integrated support and FAQ module.
+- Cursor-based pagination for large user and benefit lists.
+
+## Results
+
+- Internal production platform used for operational management of multiple user profiles.
+- Granular permission system covering 18 roles across 6+ departments without manual intervention.
+- Image pipeline serving optimized variants reducing load weight on mobile clients.
+
+## What I Would Do Differently
+
+On the backend, I would use CQRS to separate read operations (dashboards, listings) from write operations (membership creation, benefit claims) — currently everything goes through the same services, and as complexity grows, the separation would make the code more maintainable. On the frontend, I would implement Storybook to document UI components and facilitate visual collaboration with the team.

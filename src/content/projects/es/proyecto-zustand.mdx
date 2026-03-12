@@ -1,0 +1,79 @@
+---
+title: "App de gestión con Zustand"
+slug: "proyecto-zustand"
+summary: "Aplicación React con TypeScript que demuestra el manejo de estado global con Zustand, incluyendo persistencia, acciones asíncronas y tipado estricto."
+role: "frontend"
+stack:
+  - React
+  - TypeScript
+  - Zustand
+featured: false
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Estado global tipado con Zustand y TypeScript"
+  - "70% del código en TypeScript con tipado estricto"
+  - "Arquitectura limpia con separación de stores por dominio"
+repoUrl: "https://github.com/LautiTejada/Proyecto-Zustand"
+---
+
+## Contexto
+
+Proyecto desarrollado para explorar y dominar Zustand como alternativa a Redux para manejo de estado global en aplicaciones React. El objetivo era construir una app funcional que demostrara patrones avanzados: stores tipados, acciones asíncronas, persistencia y composición de stores.
+
+## Solución
+
+Se construyó una aplicación React con TypeScript que implementa múltiples stores de Zustand organizados por dominio. Cada store maneja su propio slice de estado con acciones tipadas, y se conectan a componentes React que consumen solo el estado que necesitan (evitando re-renders innecesarios).
+
+## Decisiones técnicas
+
+- **Zustand sobre Redux**: API minimalista, sin boilerplate de actions/reducers, integración nativa con TypeScript y soporte de middleware (persist, devtools) sin configuración adicional.
+- **TypeScript estricto**: interfaces para cada store, acciones tipadas, y uso de genéricos para middleware. El 70% del código es TypeScript.
+- **Stores por dominio**: en lugar de un store monolítico, cada dominio tiene su propio store. Esto mejora la mantenibilidad y permite testing aislado.
+- **React con componentes funcionales**: hooks de Zustand (`useStore`) con selectores para suscripción granular al estado.
+
+## Patrones implementados
+
+```typescript
+// Store tipado con acciones asíncronas
+interface ProductStore {
+	products: Product[];
+	loading: boolean;
+	error: string | null;
+	fetchProducts: () => Promise<void>;
+	addProduct: (product: Product) => void;
+}
+
+// Selector granular para evitar re-renders
+const productNames = useProductStore((state) =>
+	state.products.map((p) => p.name),
+);
+```
+
+## Estructura
+
+```
+src/
+├── store/
+│   ├── useProductStore.ts    # Store de productos
+│   ├── useCartStore.ts       # Store del carrito
+│   └── useAuthStore.ts       # Store de autenticación
+├── components/
+│   ├── ProductList.tsx       # Consume productStore
+│   ├── Cart.tsx              # Consume cartStore
+│   └── AuthGuard.tsx         # Consume authStore
+├── types/
+│   └── index.ts              # Interfaces compartidas
+└── App.tsx                   # Composición de la app
+```
+
+## Aprendizajes
+
+- Zustand escala bien para apps medianas sin la complejidad de Redux Toolkit.
+- Los selectores granulares son clave para la performance: suscribirse a `state.products.length` en vez de `state` completo evita renders innecesarios.
+- El middleware `persist` de Zustand simplifica la persistencia en localStorage con tipado automático.
+- La composición de stores independientes es más mantenible que un store monolítico con slices.
+
+## Qué haría diferente
+
+Agregaría tests unitarios para cada store usando testing-library y un mock de Zustand. También exploraría el patrón de store factories para crear stores dinámicos en contextos como listas de items con estado individual.

@@ -1,0 +1,67 @@
+---
+title: "App interna Inncome"
+slug: "app-inncome"
+summary: "Desarrollo de la aplicación web interna de Inncome para gestión financiera. Plataforma con autenticación, dashboards y múltiples módulos de operación."
+role: "frontend"
+stack:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - React
+featured: true
+year: 2025
+confidentiality: "internal"
+highlights:
+  - "Aplicación interna en producción usada por el equipo de Inncome"
+  - "Múltiples módulos de gestión financiera con navegación por roles"
+  - "Autenticación y manejo de sesiones con protección de rutas"
+repoUrl: "https://github.com/LautiTejada/Inncome_Project"
+---
+
+> **Nota de confidencialidad**: esta aplicación es de uso interno de Inncome. Los nombres de módulos específicos, datos financieros y capturas han sido omitidos. La descripción refleja el trabajo técnico realizado sin revelar información protegida.
+
+## Contexto
+
+Además de la landing pública, Inncome necesitaba una aplicación web interna donde sus usuarios gestionaran operaciones financieras. La app debía manejar autenticación, múltiples vistas según el rol del usuario, y presentar datos de forma clara con dashboards y tablas.
+
+## Solución
+
+Se desarrolló la aplicación web interna como un proyecto separado dentro del mismo repositorio, usando Next.js con App Router y TypeScript. La app consume una API REST externa y presenta los datos en interfaces organizadas por módulos.
+
+Se implementó autenticación con protección de rutas, manejo de sesiones y redirección según el estado de login del usuario.
+
+## Decisiones técnicas
+
+- **Next.js App Router**: uso de layouts anidados para separar la estructura de la app autenticada vs. las páginas públicas (login, registro). Server Components para la carga inicial de datos.
+- **TypeScript estricto**: tipado completo de las respuestas de API y props de componentes para detectar errores en tiempo de desarrollo.
+- **Tailwind CSS**: consistencia de diseño con la landing, reutilización de tokens de color y tipografía.
+- **Separación frontend/backend**: la app es puramente frontend, consumiendo endpoints REST de un backend externo. Esto permite que ambos equipos trabajen de forma independiente.
+
+## Arquitectura
+
+```
+src/
+├── app/
+│   ├── (auth)/           # Rutas protegidas (requieren login)
+│   │   ├── dashboard/    # Vista principal con métricas
+│   │   └── [módulos]/    # Módulos de gestión por área
+│   ├── login/            # Página de inicio de sesión
+│   └── layout.tsx        # Layout con navegación condicional
+├── components/
+│   ├── layout/           # Header, Sidebar, Navigation
+│   ├── dashboard/        # Cards de métricas, gráficos
+│   └── shared/           # Componentes reutilizables (tablas, modales)
+└── lib/
+    ├── api/              # Cliente HTTP tipado
+    └── auth/             # Lógica de autenticación y sesión
+```
+
+## Resultados
+
+- Aplicación interna en producción utilizada por el equipo de Inncome para operaciones diarias.
+- Navegación intuitiva organizada por módulos con acceso controlado por rol.
+- Interfaz responsive que permite operar tanto desde desktop como desde dispositivos móviles.
+
+## Qué haría diferente
+
+Implementaría React Query (TanStack Query) para el data fetching en lugar de `useEffect` + `fetch` directo — la gestión de cache, revalidación y estados de loading se vuelve mucho más limpia. También usaría un sistema de design tokens centralizado para compartir estilos entre la landing y la app interna de forma más estructurada.

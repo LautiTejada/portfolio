@@ -1,0 +1,79 @@
+---
+title: "State Management App with Zustand"
+slug: "proyecto-zustand"
+summary: "React application with TypeScript demonstrating global state management with Zustand, including persistence, async actions, and strict typing."
+role: "frontend"
+stack:
+  - React
+  - TypeScript
+  - Zustand
+featured: false
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Typed global state with Zustand and TypeScript"
+  - "70% of code in TypeScript with strict typing"
+  - "Clean architecture with domain-separated stores"
+repoUrl: "https://github.com/LautiTejada/Proyecto-Zustand"
+---
+
+## Context
+
+Project developed to explore and master Zustand as an alternative to Redux for global state management in React applications. The goal was to build a functional app demonstrating advanced patterns: typed stores, async actions, persistence, and store composition.
+
+## Solution
+
+A React application with TypeScript was built implementing multiple Zustand stores organized by domain. Each store manages its own state slice with typed actions, and they connect to React components that consume only the state they need (avoiding unnecessary re-renders).
+
+## Technical decisions
+
+- **Zustand over Redux**: minimal API, no actions/reducers boilerplate, native TypeScript integration, and middleware support (persist, devtools) without extra configuration.
+- **Strict TypeScript**: interfaces for each store, typed actions, and generic usage for middleware. 70% of the code is TypeScript.
+- **Domain-based stores**: instead of a monolithic store, each domain has its own store. This improves maintainability and enables isolated testing.
+- **React with functional components**: Zustand hooks (`useStore`) with selectors for granular state subscription.
+
+## Implemented patterns
+
+```typescript
+// Typed store with async actions
+interface ProductStore {
+	products: Product[];
+	loading: boolean;
+	error: string | null;
+	fetchProducts: () => Promise<void>;
+	addProduct: (product: Product) => void;
+}
+
+// Granular selector to avoid re-renders
+const productNames = useProductStore((state) =>
+	state.products.map((p) => p.name),
+);
+```
+
+## Structure
+
+```
+src/
+├── store/
+│   ├── useProductStore.ts    # Product store
+│   ├── useCartStore.ts       # Cart store
+│   └── useAuthStore.ts       # Authentication store
+├── components/
+│   ├── ProductList.tsx       # Consumes productStore
+│   ├── Cart.tsx              # Consumes cartStore
+│   └── AuthGuard.tsx         # Consumes authStore
+├── types/
+│   └── index.ts              # Shared interfaces
+└── App.tsx                   # App composition
+```
+
+## Learnings
+
+- Zustand scales well for medium-sized apps without the complexity of Redux Toolkit.
+- Granular selectors are key to performance: subscribing to `state.products.length` instead of the entire `state` avoids unnecessary renders.
+- Zustand's `persist` middleware simplifies localStorage persistence with automatic typing.
+- Composing independent stores is more maintainable than a monolithic store with slices.
+
+## What I Would Do Differently
+
+I would add unit tests for each store using testing-library and a Zustand mock. I would also explore the store factory pattern to create dynamic stores in contexts like item lists with individual state.

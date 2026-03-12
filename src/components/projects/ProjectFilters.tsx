@@ -1,10 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useCallback } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import type { Project, ProjectRole } from "@/lib/types/project";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/getDictionary";
 import ProjectCard from "./ProjectCard";
+
+const VALID_ROLES = ["frontend", "backend", "fullstack"] as const;
 
 interface ProjectFiltersProps {
 	projects: Project[];
@@ -17,8 +20,39 @@ export default function ProjectFilters({
 	locale,
 	dict,
 }: ProjectFiltersProps) {
-	const [activeRole, setActiveRole] = useState<ProjectRole | "all">("all");
-	const [activeTag, setActiveTag] = useState<string | null>(null);
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	const roleParam = searchParams.get("role");
+	const activeRole: ProjectRole | "all" =
+		roleParam && VALID_ROLES.includes(roleParam as ProjectRole)
+			? (roleParam as ProjectRole)
+			: "all";
+	const activeTag = searchParams.get("tag");
+	const searchQuery = searchParams.get("q") ?? "";
+
+	const updateParams = useCallback(
+		(key: string, value: string | null) => {
+			const params = new URLSearchParams(searchParams.toString());
+			if (value === null) {
+				params.delete(key);
+			} else {
+				params.set(key, value);
+			}
+			const qs = params.toString();
+			router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+		},
+		[router, pathname, searchParams],
+	);
+
+	function setActiveRole(role: ProjectRole | "all") {
+		updateParams("role", role === "all" ? null : role);
+	}
+
+	function setActiveTag(tag: string | null) {
+		updateParams("tag", tag);
+	}
 
 	const roleOptions: { value: ProjectRole | "all"; label: string }[] = [
 		{ value: "all", label: dict.projects.allRoles },
@@ -34,16 +68,34 @@ export default function ProjectFilters({
 	}, [projects]);
 
 	const filtered = useMemo(() => {
+		const q = searchQuery.toLowerCase();
 		return projects.filter((p) => {
 			if (activeRole !== "all" && p.frontmatter.role !== activeRole)
 				return false;
 			if (activeTag && !p.frontmatter.stack.includes(activeTag)) return false;
+			if (
+				q &&
+				!p.frontmatter.title.toLowerCase().includes(q) &&
+				!p.frontmatter.summary.toLowerCase().includes(q)
+			)
+				return false;
 			return true;
 		});
-	}, [projects, activeRole, activeTag]);
+	}, [projects, activeRole, activeTag, searchQuery]);
 
 	return (
 		<div>
+			{/* Search */}
+			<div className="mb-4">
+				<input
+					type="search"
+					value={searchQuery}
+					onChange={(e) => updateParams("q", e.target.value || null)}
+					placeholder={dict.projects.searchPlaceholder}
+					className="w-full rounded-lg border border-foreground/10 bg-transparent px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/30 focus:border-foreground/30 focus:outline-none focus:ring-1 focus:ring-foreground/30 sm:max-w-xs"
+				/>
+			</div>
+
 			{/* Role filter */}
 			<div className="flex flex-wrap gap-2">
 				{roleOptions.map(({ value, label }) => (
@@ -86,7 +138,7 @@ export default function ProjectFilters({
 			</div>
 
 			{/* Project list */}
-			<div className="mt-8 grid gap-4">
+			<div className="mt-8 grid gap-4 sm:grid-cols-2">
 				{filtered.length > 0 ? (
 					filtered.map((project) => (
 						<ProjectCard

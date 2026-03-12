@@ -1,0 +1,64 @@
+---
+title: "Landing Inncome"
+slug: "landing-inncome"
+summary: "Diseño y desarrollo de la landing page corporativa de Inncome, una fintech de gestión financiera. Sitio de alto rendimiento con animaciones, formulario de contacto y deploy en producción."
+role: "frontend"
+stack:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Vercel
+featured: true
+year: 2025
+confidentiality: "public"
+highlights:
+  - "Sitio en producción desplegado en inncome.net"
+  - "Diseño responsive mobile-first con animaciones fluidas"
+  - "SEO optimizado con metadata dinámica y Open Graph"
+repoUrl: "https://github.com/LautiTejada/Inncome_Project"
+liveUrl: "https://inncome.net"
+---
+
+## Contexto
+
+Inncome es una fintech que ofrece herramientas de gestión financiera. Necesitaban una landing profesional que transmitiera confianza, explicara el producto y captara leads a través de un formulario de contacto.
+
+El sitio anterior era básico y no reflejaba la madurez del producto. Se necesitaba una landing moderna, rápida y optimizada para conversión.
+
+## Solución
+
+Se desarrolló la landing desde cero con Next.js y TypeScript, usando Tailwind CSS para los estilos. El sitio incluye secciones de hero, features, pricing, testimonios y un formulario de contacto.
+
+Se priorizó la performance (carga rápida, imágenes optimizadas con `next/image`) y el SEO (metadata dinámica, Open Graph, sitemap).
+
+## Decisiones técnicas
+
+- **Next.js con App Router**: aprovechando SSG para generar páginas estáticas con máxima performance. El contenido no cambia frecuentemente, por lo que no se necesita SSR.
+- **Tailwind CSS**: permitió iterar rápido sobre el diseño sin un paso intermedio de Figma, manteniendo consistencia visual en todo el sitio.
+- **Deploy en Vercel**: integración directa con el repo de GitHub, previews automáticas por branch y deploy a producción en cada push a main.
+- **Dominio custom**: configurado en inncome.net con SSL automático via Vercel.
+
+## Arquitectura
+
+```
+src/
+├── app/              # Páginas con App Router
+│   ├── layout.tsx    # Layout global con metadata
+│   └── page.tsx      # Landing principal
+├── components/
+│   ├── Hero.tsx      # Sección principal con CTA
+│   ├── Features.tsx  # Grid de características del producto
+│   ├── Pricing.tsx   # Planes y precios
+│   └── Contact.tsx   # Formulario de contacto
+└── lib/              # Utilidades y configuración
+```
+
+## Resultados
+
+- Sitio en producción en [inncome.net](https://inncome.net), funcionando como puerta de entrada principal del producto.
+- Diseño responsive que funciona correctamente en todos los breakpoints.
+- Performance optimizada con imágenes en WebP y lazy loading nativo.
+
+## Qué haría diferente
+
+Integraría un CMS headless (como Sanity o Contentful) para que el equipo de marketing pueda editar textos y secciones sin depender de desarrollo. También agregaría analytics desde el día uno para tener métricas de conversión del formulario de contacto.

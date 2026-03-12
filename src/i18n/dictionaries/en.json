@@ -10,7 +10,8 @@
 		"titleHighlight": "Next.js / TypeScript / Node",
 		"description": "I build performant, maintainable web products with a focus on developer experience and real-world impact.",
 		"viewProjects": "View Projects",
-		"contact": "Contact"
+		"contact": "Contact",
+		"downloadCV": "Download CV"
 	},
 	"featuredProjects": {
 		"title": "Featured Projects",
@@ -62,6 +63,7 @@
 		"live": "Live",
 		"allRoles": "All",
 		"allTags": "All tags",
+		"searchPlaceholder": "Search projects…",
 		"noResults": "No projects match the selected filters.",
 		"summary": "Summary",
 		"highlights": "Highlights",
@@ -89,7 +91,9 @@
 		"messageLabel": "Message",
 		"messagePlaceholder": "What's on your mind?",
 		"send": "Send Message",
-		"sending": "Opening mail client…"
+		"sending": "Sending…",
+		"successMessage": "Message sent! I'll get back to you soon.",
+		"downloadCV": "Download CV"
 	},
 	"notFound": {
 		"code": "404",
@@ -99,6 +103,9 @@
 		"viewProjects": "View Projects"
 	},
 	"footer": {
-		"rights": "All rights reserved."
+		"rights": "All rights reserved.",
+		"navigation": "Navigation",
+		"contact": "Contact",
+		"builtWith": "Built with Next.js, Tailwind CSS & TypeScript."
 	}
 }

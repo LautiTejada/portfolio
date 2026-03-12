@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getAllProjects } from "@/lib/content/projects";
 import Container from "@/components/layout/Container";
 import ProjectFilters from "@/components/projects/ProjectFilters";
+import { ProjectGridSkeleton } from "@/components/projects/ProjectCardSkeleton";
 import { getDictionary } from "@/i18n/getDictionary";
 import type { Locale } from "@/i18n/config";
 
@@ -31,7 +33,9 @@ export default async function ProjectsPage({ params }: PageProps) {
 			</p>
 
 			<div className="mt-10">
-				<ProjectFilters projects={projects} locale={locale} dict={dict} />
+				<Suspense fallback={<ProjectGridSkeleton />}>
+					<ProjectFilters projects={projects} locale={locale} dict={dict} />
+				</Suspense>
 			</div>
 		</Container>
 	);
