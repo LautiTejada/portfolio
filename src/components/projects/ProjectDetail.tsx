@@ -1,110 +1,46 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import type { ProjectFrontmatter } from "@/lib/types/project";
-import type { HiringMode } from "@/components/hiring/HiringModeToggle";
-import HiringModeToggle from "@/components/hiring/HiringModeToggle";
 import type { Dictionary } from "@/i18n/getDictionary";
 
 interface ProjectDetailProps {
 	frontmatter: ProjectFrontmatter;
 	mdxContent: React.ReactNode;
-	retroContent?: string;
 	dict: Dictionary;
 }
-
-const STORAGE_KEY = "hiringMode";
 
 export default function ProjectDetail({
 	frontmatter,
 	mdxContent,
-	retroContent,
 	dict,
 }: ProjectDetailProps) {
-	const [mode, setMode] = useState<HiringMode>("recruiter");
-
-	useEffect(() => {
-		const stored = localStorage.getItem(STORAGE_KEY);
-		if (stored === "recruiter" || stored === "techlead") {
-			setMode(stored);
-		}
-	}, []);
-
-	const { summary, highlights, repoUrl, liveUrl } = frontmatter;
+	const { highlights } = frontmatter;
 
 	return (
-		<div className="mt-8">
-			<HiringModeToggle onChange={setMode} dict={dict} />
-
-			{mode === "recruiter" ? (
-				<section className="mt-8">
-					<h2 className="text-xl font-semibold tracking-tight">
-						{dict.projects.summary}
+		<div className="mt-10">
+			{/* Highlights grid */}
+			{highlights.length > 0 && (
+				<div className="mb-12">
+					<h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-foreground/35">
+						{dict.projects.highlights}
 					</h2>
-					<p className="mt-3 leading-relaxed text-foreground/70">{summary}</p>
-
-					{highlights.length > 0 && (
-						<div className="mt-6">
-							<h2 className="text-xl font-semibold tracking-tight">
-								{dict.projects.highlights}
-							</h2>
-							<ul className="mt-3 space-y-2">
-								{highlights.map((item) => (
-									<li
-										key={item}
-										className="flex items-start gap-2 text-foreground/70">
-										<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-foreground/30" />
-										{item}
-									</li>
-								))}
-							</ul>
-						</div>
-					)}
-
-					{(repoUrl || liveUrl) && (
-						<div className="mt-6">
-							<h2 className="text-xl font-semibold tracking-tight">
-								{dict.projects.links}
-							</h2>
-							<div className="mt-3 flex gap-3">
-								{repoUrl && (
-									<a
-										href={repoUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="rounded-md border border-foreground/10 px-3 py-1.5 text-sm font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-										{dict.projects.repository} ↗
-									</a>
-								)}
-								{liveUrl && (
-									<a
-										href={liveUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="rounded-md border border-foreground/10 px-3 py-1.5 text-sm font-medium text-foreground/60 transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-foreground/30">
-										{dict.projects.liveDemo} ↗
-									</a>
-								)}
+					<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+						{highlights.map((item, i) => (
+							<div
+								key={item}
+								className="rounded-lg border border-foreground/[0.06] bg-foreground/[0.02] px-4 py-3">
+								<span className="mr-2 text-xs font-bold tabular-nums text-foreground/20">
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								<span className="text-sm leading-relaxed text-foreground/65">
+									{item}
+								</span>
 							</div>
-						</div>
-					)}
-				</section>
-			) : (
-				<section className="mt-8">
-					{mdxContent}
-
-					{retroContent && (
-						<div className="mt-10 rounded-xl border border-foreground/10 p-6">
-							<h2 className="text-xl font-semibold tracking-tight">
-								{dict.projects.retroTitle}
-							</h2>
-							<p className="mt-3 leading-relaxed text-foreground/70">
-								{retroContent}
-							</p>
-						</div>
-					)}
-				</section>
+						))}
+					</div>
+				</div>
 			)}
+
+			{/* MDX content */}
+			<div className="max-w-3xl">{mdxContent}</div>
 		</div>
 	);
 }

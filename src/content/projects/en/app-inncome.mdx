@@ -37,31 +37,8 @@ Authentication with route protection, session management, and login state-based 
 - **Tailwind CSS**: design consistency with the landing page, reusing color and typography tokens.
 - **Frontend/backend separation**: the app is purely frontend, consuming REST endpoints from an external backend. This allows both teams to work independently.
 
-## Architecture
-
-```
-src/
-├── app/
-│   ├── (auth)/           # Protected routes (require login)
-│   │   ├── dashboard/    # Main view with metrics
-│   │   └── [modules]/    # Management modules by area
-│   ├── login/            # Login page
-│   └── layout.tsx        # Layout with conditional navigation
-├── components/
-│   ├── layout/           # Header, Sidebar, Navigation
-│   ├── dashboard/        # Metric cards, charts
-│   └── shared/           # Reusable components (tables, modals)
-└── lib/
-    ├── api/              # Typed HTTP client
-    └── auth/             # Authentication and session logic
-```
-
 ## Results
 
 - Internal production application used by the Inncome team for daily operations.
 - Intuitive navigation organized by modules with role-controlled access.
 - Responsive interface enabling operation from both desktop and mobile devices.
-
-## What I Would Do Differently
-
-I would implement React Query (TanStack Query) for data fetching instead of direct `useEffect` + `fetch` — cache management, revalidation, and loading states become much cleaner. I would also use a centralized design token system to share styles between the landing and internal app in a more structured way.

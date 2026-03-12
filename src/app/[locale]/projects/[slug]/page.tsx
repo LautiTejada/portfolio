@@ -4,6 +4,8 @@ import {
 	getAllProjectSlugs,
 	getAllProjects,
 } from "@/lib/content/projects";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import Container from "@/components/layout/Container";
 import ProjectHeader from "@/components/projects/ProjectHeader";
 import ProjectDetail from "@/components/projects/ProjectDetail";
@@ -14,14 +16,6 @@ import { getDictionary } from "@/i18n/getDictionary";
 
 interface PageProps {
 	params: Promise<{ locale: string; slug: string }>;
-}
-
-function extractRetroSection(content: string): string | undefined {
-	const regex =
-		/^##\s*(?:qu[eé]\s+har[ií]a\s+diferente|what\s+i\s+would\s+do\s+differently)\s*\n([\s\S]*?)(?=^##\s|$)/im;
-	const match = content.match(regex);
-	if (!match) return undefined;
-	return match[1].trim() || undefined;
 }
 
 export async function generateStaticParams() {
@@ -66,7 +60,6 @@ export default async function ProjectPage({ params }: PageProps) {
 	if (!project) notFound();
 
 	const dict = await getDictionary(locale);
-	const retroContent = extractRetroSection(project.content);
 
 	// Get all projects for prev/next navigation
 	const allProjects = await getAllProjects(locale);
@@ -88,27 +81,25 @@ export default async function ProjectPage({ params }: PageProps) {
 				}
 			: null;
 
-	let MDXComponent: React.ComponentType;
-	try {
-		MDXComponent = (await import(`@/content/projects/${locale}/${slug}.mdx`))
-			.default;
-	} catch {
-		notFound();
-	}
-
 	const mdxContent = (
 		<MDXWrapper>
-			<MDXComponent />
+			<MDXRemote
+				source={project.content}
+				options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+			/>
 		</MDXWrapper>
 	);
 
 	return (
 		<Container className="py-16">
-			<ProjectHeader frontmatter={project.frontmatter} dict={dict} />
+			<ProjectHeader
+				frontmatter={project.frontmatter}
+				dict={dict}
+				locale={locale}
+			/>
 			<ProjectDetail
 				frontmatter={project.frontmatter}
 				mdxContent={mdxContent}
-				retroContent={retroContent}
 				dict={dict}
 			/>
 			<ProjectNavigation prev={prev} next={next} locale={locale} />

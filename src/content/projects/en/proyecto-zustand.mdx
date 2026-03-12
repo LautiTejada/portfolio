@@ -50,30 +50,9 @@ const productNames = useProductStore((state) =>
 );
 ```
 
-## Structure
-
-```
-src/
-├── store/
-│   ├── useProductStore.ts    # Product store
-│   ├── useCartStore.ts       # Cart store
-│   └── useAuthStore.ts       # Authentication store
-├── components/
-│   ├── ProductList.tsx       # Consumes productStore
-│   ├── Cart.tsx              # Consumes cartStore
-│   └── AuthGuard.tsx         # Consumes authStore
-├── types/
-│   └── index.ts              # Shared interfaces
-└── App.tsx                   # App composition
-```
-
 ## Learnings
 
 - Zustand scales well for medium-sized apps without the complexity of Redux Toolkit.
 - Granular selectors are key to performance: subscribing to `state.products.length` instead of the entire `state` avoids unnecessary renders.
 - Zustand's `persist` middleware simplifies localStorage persistence with automatic typing.
 - Composing independent stores is more maintainable than a monolithic store with slices.
-
-## What I Would Do Differently
-
-I would add unit tests for each store using testing-library and a Zustand mock. I would also explore the store factory pattern to create dynamic stores in contexts like item lists with individual state.

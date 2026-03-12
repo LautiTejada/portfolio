@@ -50,30 +50,9 @@ const productNames = useProductStore((state) =>
 );
 ```
 
-## Estructura
-
-```
-src/
-├── store/
-│   ├── useProductStore.ts    # Store de productos
-│   ├── useCartStore.ts       # Store del carrito
-│   └── useAuthStore.ts       # Store de autenticación
-├── components/
-│   ├── ProductList.tsx       # Consume productStore
-│   ├── Cart.tsx              # Consume cartStore
-│   └── AuthGuard.tsx         # Consume authStore
-├── types/
-│   └── index.ts              # Interfaces compartidas
-└── App.tsx                   # Composición de la app
-```
-
 ## Aprendizajes
 
 - Zustand escala bien para apps medianas sin la complejidad de Redux Toolkit.
 - Los selectores granulares son clave para la performance: suscribirse a `state.products.length` en vez de `state` completo evita renders innecesarios.
 - El middleware `persist` de Zustand simplifica la persistencia en localStorage con tipado automático.
 - La composición de stores independientes es más mantenible que un store monolítico con slices.
-
-## Qué haría diferente
-
-Agregaría tests unitarios para cada store usando testing-library y un mock de Zustand. También exploraría el patrón de store factories para crear stores dinámicos en contextos como listas de items con estado individual.

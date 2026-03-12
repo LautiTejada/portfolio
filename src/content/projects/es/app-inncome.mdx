@@ -37,31 +37,8 @@ Se implementó autenticación con protección de rutas, manejo de sesiones y red
 - **Tailwind CSS**: consistencia de diseño con la landing, reutilización de tokens de color y tipografía.
 - **Separación frontend/backend**: la app es puramente frontend, consumiendo endpoints REST de un backend externo. Esto permite que ambos equipos trabajen de forma independiente.
 
-## Arquitectura
-
-```
-src/
-├── app/
-│   ├── (auth)/           # Rutas protegidas (requieren login)
-│   │   ├── dashboard/    # Vista principal con métricas
-│   │   └── [módulos]/    # Módulos de gestión por área
-│   ├── login/            # Página de inicio de sesión
-│   └── layout.tsx        # Layout con navegación condicional
-├── components/
-│   ├── layout/           # Header, Sidebar, Navigation
-│   ├── dashboard/        # Cards de métricas, gráficos
-│   └── shared/           # Componentes reutilizables (tablas, modales)
-└── lib/
-    ├── api/              # Cliente HTTP tipado
-    └── auth/             # Lógica de autenticación y sesión
-```
-
 ## Resultados
 
 - Aplicación interna en producción utilizada por el equipo de Inncome para operaciones diarias.
 - Navegación intuitiva organizada por módulos con acceso controlado por rol.
 - Interfaz responsive que permite operar tanto desde desktop como desde dispositivos móviles.
-
-## Qué haría diferente
-
-Implementaría React Query (TanStack Query) para el data fetching en lugar de `useEffect` + `fetch` directo — la gestión de cache, revalidación y estados de loading se vuelve mucho más limpia. También usaría un sistema de design tokens centralizado para compartir estilos entre la landing y la app interna de forma más estructurada.

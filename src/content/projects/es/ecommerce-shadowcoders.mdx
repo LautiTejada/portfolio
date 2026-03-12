@@ -42,32 +42,6 @@ Se desarrolló una arquitectura separada en frontend y backend:
 - **Swiper para carruseles**: carruseles de productos con soporte táctil nativo y transiciones fluidas.
 - **SweetAlert2**: alertas y confirmaciones con mejor UX que los alerts nativos del browser.
 
-## Arquitectura
-
-**Frontend:**
-
-```
-dresscode-front/
-├── src/
-│   ├── components/     # Componentes de UI (ProductCard, Cart, Admin)
-│   ├── pages/          # Vistas principales (Home, Catálogo, Checkout)
-│   ├── store/          # Stores de Zustand (cart, auth, products)
-│   ├── services/       # Llamadas a la API con Axios
-│   ├── types/          # Interfaces TypeScript
-│   └── utils/          # Helpers y constantes
-```
-
-**Backend:**
-
-```
-├── src/main/java/
-│   ├── controllers/    # Endpoints REST
-│   ├── services/       # Lógica de negocio
-│   ├── models/         # Entidades JPA
-│   ├── repositories/   # Acceso a datos
-│   └── security/       # Autenticación y autorización
-```
-
 ## Trabajo en equipo
 
 El desarrollo fue colaborativo: el repositorio frontend tiene 71 pull requests mergeados con contribuciones de múltiples integrantes del equipo. Se trabajó con un flujo de Git basado en ramas feature y code review via PRs.
@@ -78,7 +52,3 @@ El desarrollo fue colaborativo: el repositorio frontend tiene 71 pull requests m
 - Panel de administración para gestión de productos, categorías y descuentos.
 - 71 PRs mergeados en el frontend con workflow de Git organizado.
 - TypeScript (81.9% del código) garantizando type safety en todo el frontend.
-
-## Qué haría diferente
-
-Migraría a Next.js para obtener SSR/SSG en las páginas de catálogo (mejor SEO y performance inicial). También implementaría testing desde el inicio — al desarrollar en equipo, los tests previenen regresiones cuando múltiples personas tocan el mismo código. Finalmente, movería `node_modules` fuera del repositorio (actualmente committeado en la rama dev).

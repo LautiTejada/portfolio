@@ -116,7 +116,3 @@ Se desarrolló el frontend con **Next.js 15** (App Router), **React 19** y **Typ
 - Plataforma interna en producción utilizada para gestión operativa de múltiples perfiles de usuario.
 - Sistema de permisos granular que cubre 18 roles en 6+ departamentos sin intervención manual.
 - Pipeline de imágenes que sirve variantes optimizadas reduciendo el peso de carga en clientes móviles.
-
-## Qué haría diferente
-
-En el backend, usaría CQRS para separar las operaciones de lectura (dashboards, listados) de las de escritura (creación de membresías, claims de beneficios) — actualmente todo pasa por los mismos servicios y a medida que crece la complejidad, la separación haría el código más mantenible. En el frontend, implementaría Storybook para documentar los componentes de UI y facilitar la colaboración visual con el equipo.

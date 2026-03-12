@@ -42,32 +42,6 @@ A separated frontend/backend architecture was developed:
 - **Swiper for carousels**: product carousels with native touch support and smooth transitions.
 - **SweetAlert2**: alerts and confirmations with better UX than native browser alerts.
 
-## Architecture
-
-**Frontend:**
-
-```
-dresscode-front/
-├── src/
-│   ├── components/     # UI components (ProductCard, Cart, Admin)
-│   ├── pages/          # Main views (Home, Catalog, Checkout)
-│   ├── store/          # Zustand stores (cart, auth, products)
-│   ├── services/       # API calls with Axios
-│   ├── types/          # TypeScript interfaces
-│   └── utils/          # Helpers and constants
-```
-
-**Backend:**
-
-```
-├── src/main/java/
-│   ├── controllers/    # REST endpoints
-│   ├── services/       # Business logic
-│   ├── models/         # JPA entities
-│   ├── repositories/   # Data access
-│   └── security/       # Authentication and authorization
-```
-
 ## Teamwork
 
 Development was collaborative: the frontend repository has 71 merged pull requests with contributions from multiple team members. We worked with a Git flow based on feature branches and code review via PRs.
@@ -78,7 +52,3 @@ Development was collaborative: the frontend repository has 71 merged pull reques
 - Admin panel for managing products, categories, and discounts.
 - 71 merged PRs in the frontend with organized Git workflow.
 - TypeScript (81.9% of code) ensuring type safety across the entire frontend.
-
-## What I Would Do Differently
-
-I would migrate to Next.js for SSR/SSG on catalog pages (better SEO and initial performance). I would also implement testing from the start — when developing as a team, tests prevent regressions when multiple people work on the same code. Finally, I would move `node_modules` out of the repository (currently committed in the dev branch).

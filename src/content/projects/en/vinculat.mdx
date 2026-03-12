@@ -116,7 +116,3 @@ The frontend was developed with **Next.js 15** (App Router), **React 19**, and *
 - Internal production platform used for operational management of multiple user profiles.
 - Granular permission system covering 18 roles across 6+ departments without manual intervention.
 - Image pipeline serving optimized variants reducing load weight on mobile clients.
-
-## What I Would Do Differently
-
-On the backend, I would use CQRS to separate read operations (dashboards, listings) from write operations (membership creation, benefit claims) — currently everything goes through the same services, and as complexity grows, the separation would make the code more maintainable. On the frontend, I would implement Storybook to document UI components and facilitate visual collaboration with the team.

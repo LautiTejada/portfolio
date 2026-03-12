@@ -38,27 +38,8 @@ Se priorizó la performance (carga rápida, imágenes optimizadas con `next/imag
 - **Deploy en Vercel**: integración directa con el repo de GitHub, previews automáticas por branch y deploy a producción en cada push a main.
 - **Dominio custom**: configurado en inncome.net con SSL automático via Vercel.
 
-## Arquitectura
-
-```
-src/
-├── app/              # Páginas con App Router
-│   ├── layout.tsx    # Layout global con metadata
-│   └── page.tsx      # Landing principal
-├── components/
-│   ├── Hero.tsx      # Sección principal con CTA
-│   ├── Features.tsx  # Grid de características del producto
-│   ├── Pricing.tsx   # Planes y precios
-│   └── Contact.tsx   # Formulario de contacto
-└── lib/              # Utilidades y configuración
-```
-
 ## Resultados
 
 - Sitio en producción en [inncome.net](https://inncome.net), funcionando como puerta de entrada principal del producto.
 - Diseño responsive que funciona correctamente en todos los breakpoints.
 - Performance optimizada con imágenes en WebP y lazy loading nativo.
-
-## Qué haría diferente
-
-Integraría un CMS headless (como Sanity o Contentful) para que el equipo de marketing pueda editar textos y secciones sin depender de desarrollo. También agregaría analytics desde el día uno para tener métricas de conversión del formulario de contacto.
