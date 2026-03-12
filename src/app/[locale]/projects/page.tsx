@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getAllProjects } from "@/lib/content/projects";
 import Container from "@/components/layout/Container";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import ProjectFilters from "@/components/projects/ProjectFilters";
 import { ProjectGridSkeleton } from "@/components/projects/ProjectCardSkeleton";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -25,18 +26,22 @@ export default async function ProjectsPage({ params }: PageProps) {
 
 	return (
 		<Container className="py-16">
-			<h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-				{dict.projects.title}
-			</h1>
-			<p className="mt-2 max-w-lg text-foreground/60">
-				{dict.projects.description}
-			</p>
+			<AnimateOnScroll>
+				<h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+					{dict.projects.title}
+				</h1>
+				<p className="mt-2 max-w-lg text-foreground/60">
+					{dict.projects.description}
+				</p>
+			</AnimateOnScroll>
 
-			<div className="mt-10">
-				<Suspense fallback={<ProjectGridSkeleton />}>
-					<ProjectFilters projects={projects} locale={locale} dict={dict} />
-				</Suspense>
-			</div>
+			<AnimateOnScroll delay={0.15}>
+				<div className="mt-10">
+					<Suspense fallback={<ProjectGridSkeleton />}>
+						<ProjectFilters projects={projects} locale={locale} dict={dict} />
+					</Suspense>
+				</div>
+			</AnimateOnScroll>
 		</Container>
 	);
 }

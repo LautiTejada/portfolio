@@ -104,6 +104,13 @@
 		"goHome": "Go Home",
 		"viewProjects": "View Projects"
 	},
+	"error": {
+		"label": "Error",
+		"title": "Something went wrong",
+		"description": "An unexpected error occurred. You can try again or go back home.",
+		"retry": "Try again",
+		"goHome": "Go home"
+	},
 	"footer": {
 		"rights": "All rights reserved.",
 		"navigation": "Navigation",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@/components/layout/Container";
+import AnimateOnScroll from "@/components/ui/AnimateOnScroll";
 import ContactForm from "@/components/contact/ContactForm";
 import { getDictionary } from "@/i18n/getDictionary";
 import type { Locale } from "@/i18n/config";
@@ -21,14 +22,18 @@ export default async function ContactPage({ params }: PageProps) {
 
 	return (
 		<Container className="py-16">
-			<h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-				{dict.contact.title}
-			</h1>
-			<p className="mt-2 max-w-lg text-foreground/60">
-				{dict.contact.description}
-			</p>
+			<AnimateOnScroll>
+				<h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+					{dict.contact.title}
+				</h1>
+				<p className="mt-2 max-w-lg text-foreground/60">
+					{dict.contact.description}
+				</p>
+			</AnimateOnScroll>
 
-			<ContactForm dict={dict} />
+			<AnimateOnScroll delay={0.15}>
+				<ContactForm dict={dict} />
+			</AnimateOnScroll>
 		</Container>
 	);
 }

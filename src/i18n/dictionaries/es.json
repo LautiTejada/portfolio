@@ -104,6 +104,13 @@
 		"goHome": "Ir al Inicio",
 		"viewProjects": "Ver Proyectos"
 	},
+	"error": {
+		"label": "Error",
+		"title": "Algo salió mal",
+		"description": "Ocurrió un error inesperado. Podés intentar de nuevo o volver al inicio.",
+		"retry": "Intentar de nuevo",
+		"goHome": "Ir al inicio"
+	},
 	"footer": {
 		"rights": "Todos los derechos reservados.",
 		"navigation": "Navegación",
