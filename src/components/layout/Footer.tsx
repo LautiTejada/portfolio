@@ -23,7 +23,7 @@ export default function Footer({ dict }: FooterProps) {
 	return (
 		<footer className="border-t border-foreground/10 py-12">
 			<Container>
-				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+				<div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
 					{/* Navigation */}
 					<div>
 						<h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground/70">
@@ -64,13 +64,6 @@ export default function Footer({ dict }: FooterProps) {
 								</a>
 							))}
 						</nav>
-					</div>
-
-					{/* Built with */}
-					<div className="sm:col-span-2 lg:col-span-1">
-						<p className="text-sm text-foreground/40">
-							{dict.footer.builtWith}
-						</p>
 					</div>
 				</div>
 

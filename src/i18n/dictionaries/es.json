@@ -8,7 +8,7 @@
 		"label": "Portfolio",
 		"title": "Fullstack Developer —",
 		"titleHighlight": "Next.js / TypeScript / Node",
-		"description": "Construyo productos web performantes y mantenibles, con foco en developer experience e impacto real.",
+		"description": "Diseño y desarrollo aplicaciones web de principio a fin — desde la interfaz hasta la API — priorizando código limpio, buen rendimiento y soluciones que realmente resuelvan problemas.",
 		"viewProjects": "Ver Proyectos",
 		"contact": "Contacto",
 		"downloadCV": "Descargar CV"
@@ -22,23 +22,23 @@
 		"steps": [
 			{
 				"number": "01",
-				"title": "Descubrir",
-				"description": "Entender el problema, los usuarios y las restricciones antes de escribir una sola línea de código."
+				"title": "Entender",
+				"description": "Antes de codear, investigo qué se necesita: el problema real, quién lo va a usar y qué limitaciones hay."
 			},
 			{
 				"number": "02",
-				"title": "Construir",
-				"description": "Enviar incrementalmente con arquitectura limpia, type safety y foco en developer experience."
+				"title": "Desarrollar",
+				"description": "Avanzo de a sprints cortos con código tipado, componentes reutilizables y estructura que escale."
 			},
 			{
 				"number": "03",
-				"title": "Testear",
-				"description": "Validar con feedback real. Tests automatizados, auditorías de performance y cobertura de edge cases."
+				"title": "Validar",
+				"description": "Pruebo con datos reales, chequeo rendimiento y me aseguro de que los edge cases estén cubiertos."
 			},
 			{
 				"number": "04",
 				"title": "Entregar",
-				"description": "Deploy con confianza. CI/CD, monitoreo y documentación desde el día uno."
+				"description": "Deploy automatizado, variables de entorno controladas y documentación para que cualquiera pueda continuar."
 			}
 		]
 	},
@@ -107,7 +107,6 @@
 	"footer": {
 		"rights": "Todos los derechos reservados.",
 		"navigation": "Navegación",
-		"contact": "Contacto",
-		"builtWith": "Hecho con Next.js, Tailwind CSS y TypeScript."
+		"contact": "Contacto"
 	}
 }

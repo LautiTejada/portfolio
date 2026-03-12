@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Container from "./Container";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import type { Locale } from "@/i18n/config";
@@ -16,6 +16,7 @@ interface HeaderProps {
 
 export default function Header({ locale, dict }: HeaderProps) {
 	const pathname = usePathname();
+	const router = useRouter();
 	const [mobileOpen, setMobileOpen] = useState(false);
 
 	const navLinks = [
@@ -78,16 +79,19 @@ export default function Header({ locale, dict }: HeaderProps) {
 
 					<div className="flex items-center gap-0.5 rounded-md border border-foreground/10 p-0.5">
 						{locales.map((loc) => (
-							<Link
+							<button
 								key={loc}
-								href={switchLocalePath(loc)}
+								type="button"
+								onClick={() =>
+									router.replace(switchLocalePath(loc), { scroll: false })
+								}
 								className={`rounded px-2 py-1 text-xs font-medium uppercase transition-colors ${
 									locale === loc
 										? "bg-foreground/10 text-foreground"
 										: "text-foreground/40 hover:text-foreground/70"
 								}`}>
 								{loc}
-							</Link>
+							</button>
 						))}
 					</div>
 
@@ -159,17 +163,20 @@ export default function Header({ locale, dict }: HeaderProps) {
 							<span className="text-xs text-foreground/40">Language:</span>
 							<div className="flex items-center gap-0.5 rounded-md border border-foreground/10 p-0.5">
 								{locales.map((loc) => (
-									<Link
+									<button
 										key={loc}
-										href={switchLocalePath(loc)}
-										onClick={() => setMobileOpen(false)}
+										type="button"
+										onClick={() => {
+											router.replace(switchLocalePath(loc), { scroll: false });
+											setMobileOpen(false);
+										}}
 										className={`rounded px-2 py-1 text-xs font-medium uppercase transition-colors ${
 											locale === loc
 												? "bg-foreground/10 text-foreground"
 												: "text-foreground/40 hover:text-foreground/70"
 										}`}>
 										{loc}
-									</Link>
+									</button>
 								))}
 							</div>
 						</div>

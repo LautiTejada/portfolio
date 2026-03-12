@@ -8,7 +8,7 @@
 		"label": "Portfolio",
 		"title": "Fullstack Developer —",
 		"titleHighlight": "Next.js / TypeScript / Node",
-		"description": "I build performant, maintainable web products with a focus on developer experience and real-world impact.",
+		"description": "I design and develop web applications end-to-end — from UI to API — prioritizing clean code, solid performance, and solutions that actually solve problems.",
 		"viewProjects": "View Projects",
 		"contact": "Contact",
 		"downloadCV": "Download CV"
@@ -22,23 +22,23 @@
 		"steps": [
 			{
 				"number": "01",
-				"title": "Discover",
-				"description": "Understand the problem, the users, and the constraints before writing a single line of code."
+				"title": "Understand",
+				"description": "Before writing code, I dig into the real problem: who's the user, what's the context, and what are the constraints."
 			},
 			{
 				"number": "02",
-				"title": "Build",
-				"description": "Ship incrementally with clean architecture, type safety, and a focus on developer experience."
+				"title": "Develop",
+				"description": "I work in short sprints with typed code, reusable components, and an architecture that scales."
 			},
 			{
 				"number": "03",
-				"title": "Test",
-				"description": "Validate with real feedback. Automated tests, performance audits, and edge-case coverage."
+				"title": "Validate",
+				"description": "I test with real data, check performance, and make sure edge cases are covered."
 			},
 			{
 				"number": "04",
 				"title": "Ship",
-				"description": "Deploy with confidence. CI/CD, monitoring, and documentation from day one."
+				"description": "Automated deploys, controlled environment variables, and documentation so anyone can pick up where I left off."
 			}
 		]
 	},
@@ -107,7 +107,6 @@
 	"footer": {
 		"rights": "All rights reserved.",
 		"navigation": "Navigation",
-		"contact": "Contact",
-		"builtWith": "Built with Next.js, Tailwind CSS & TypeScript."
+		"contact": "Contact"
 	}
 }
