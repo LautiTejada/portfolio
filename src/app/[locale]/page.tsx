@@ -60,10 +60,15 @@ export default async function Home({ params }: PageProps) {
 							</Link>
 							<a
 								href="/cv.pdf"
-								download
+								download="cv.pdf"
+								target="_blank"
+								rel="noopener noreferrer"
 								className="inline-flex h-12 items-center justify-center rounded-full border border-foreground/20 px-6 text-sm font-medium transition-colors hover:bg-foreground/5">
 								{dict.hero.downloadCV} ↓
 							</a>
+							<span className="text-xs text-foreground/40 mt-2 block">
+								{dict.hero.downloadCVMobileHint}
+							</span>
 						</div>
 					</div>
 

@@ -93,10 +93,15 @@ export default function ContactForm({ dict }: ContactFormProps) {
 						</a>
 						<a
 							href="/cv.pdf"
-							download
+							download="cv.pdf"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="text-foreground/70 underline underline-offset-4 transition-colors hover:text-foreground">
 							{dict.contact.downloadCV} ↓
 						</a>
+						<span className="text-xs text-foreground/40 mt-2 block">
+							{dict.contact.downloadCVMobileHint}
+						</span>
 					</div>
 				</div>
 			</div>

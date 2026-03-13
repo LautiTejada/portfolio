@@ -11,7 +11,8 @@
 		"description": "I design and develop web applications end-to-end — from UI to API — prioritizing clean code, solid performance, and solutions that actually solve problems.",
 		"viewProjects": "View Projects",
 		"contact": "Contact",
-		"downloadCV": "Download CV"
+		"downloadCV": "Download CV",
+		"downloadCVMobileHint": "If it doesn't download automatically, open the file and save it manually from your device."
 	},
 	"featuredProjects": {
 		"title": "Featured Projects",
@@ -95,7 +96,8 @@
 		"successMessage": "Message sent! I'll get back to you soon.",
 		"successDetail": "Here's a summary of what you sent:",
 		"close": "Close",
-		"downloadCV": "Download CV"
+		"downloadCV": "Download CV",
+		"downloadCVMobileHint": "If it doesn't download automatically, open the file and save it manually from your device."
 	},
 	"notFound": {
 		"code": "404",

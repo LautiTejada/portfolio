@@ -11,7 +11,8 @@
 		"description": "Diseño y desarrollo aplicaciones web de principio a fin — desde la interfaz hasta la API — priorizando código limpio, buen rendimiento y soluciones que realmente resuelvan problemas.",
 		"viewProjects": "Ver Proyectos",
 		"contact": "Contacto",
-		"downloadCV": "Descargar CV"
+		"downloadCV": "Descargar CV",
+		"downloadCVMobileHint": "Si no se descarga automáticamente, abre el archivo y guárdalo manualmente desde tu dispositivo."
 	},
 	"featuredProjects": {
 		"title": "Proyectos Destacados",
@@ -95,7 +96,8 @@
 		"successMessage": "¡Mensaje enviado! Te responderé pronto.",
 		"successDetail": "Este es el resumen de lo que enviaste:",
 		"close": "Cerrar",
-		"downloadCV": "Descargar CV"
+		"downloadCV": "Descargar CV",
+		"downloadCVMobileHint": "Si no se descarga automáticamente, abre el archivo y guárdalo manualmente desde tu dispositivo."
 	},
 	"notFound": {
 		"code": "404",
